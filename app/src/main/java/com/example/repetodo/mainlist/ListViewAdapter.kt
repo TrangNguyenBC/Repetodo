@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import com.example.repetodo.R
 
-class ListViewAdapter(private val context: FragmentActivity, private val taskList: Array<String>)
+class ListViewAdapter(private val context: FragmentActivity, private val taskList: MutableList<String>)
     : ArrayAdapter<String>(context, R.layout.item_task_info, taskList) {
 
     override fun getView(taskIndex: Int, view: View?, parent: ViewGroup): View {
