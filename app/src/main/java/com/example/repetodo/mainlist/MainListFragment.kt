@@ -12,7 +12,7 @@ import com.example.repetodo.databinding.FragmentMainListBinding
 
 class MainListFragment : Fragment() {
     private lateinit var binding: FragmentMainListBinding
-    private var taskTitle: MutableList<String> = mutableListOf<String>("Go to shopping", "Pick kids", "Write emails")
+    var viewModel = ListViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,13 +21,13 @@ class MainListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
 
-        val taskListAdapter = ListViewAdapter(this.activity!!, taskTitle)
+
+        val taskListAdapter = ListViewAdapter(this.activity!!, viewModel.taskTitle.value!!)
         binding.taskListView.adapter = taskListAdapter
         binding.addButton.setOnClickListener {
             Log.i("MainListFragment","Button Add is clicked")
-            taskTitle.add(binding.newTaskEditText.text.toString())
-            Log.i("MainListFragment",taskTitle.joinToString())
-
+            viewModel.addTask(binding.newTaskEditText.text.toString())
+            Log.i("MainListFragment",viewModel.taskTitle.value!!.joinToString())
         }
 
         return binding.root
