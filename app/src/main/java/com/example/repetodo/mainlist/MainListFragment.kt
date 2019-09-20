@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.repetodo.R
 import com.example.repetodo.databinding.FragmentMainListBinding
+import kotlinx.android.synthetic.main.fragment_main_list.*
 
 class MainListFragment : Fragment() {
     private lateinit var binding: FragmentMainListBinding
-    var viewModel = ListViewModel()
+    private lateinit var viewModel: ListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,14 +23,14 @@ class MainListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
-
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
 
         val taskListAdapter = ListViewAdapter(this.activity!!, viewModel.taskTitle.value!!)
+
         binding.taskListView.adapter = taskListAdapter
         binding.addButton.setOnClickListener {
-            Log.i("MainListFragment","Button Add is clicked")
             viewModel.addTask(binding.newTaskEditText.text.toString())
-            Log.i("MainListFragment",viewModel.taskTitle.value!!.joinToString())
+            taskListAdapter.notifyDataSetChanged()
         }
 
         return binding.root

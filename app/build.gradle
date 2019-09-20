@@ -43,4 +43,5 @@ dependencies {
 
     // data binding
     kapt "com.android.databinding:compiler:$gradle_version"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 }
