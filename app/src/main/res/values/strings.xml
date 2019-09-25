@@ -3,4 +3,5 @@
     <string name="empty_string"></string>
     <string name="add_task_hint">Type your task here</string>
     <string name="add_button_text">Add</string>
+    <string name="font_mono">monospace</string>
 </resources>
