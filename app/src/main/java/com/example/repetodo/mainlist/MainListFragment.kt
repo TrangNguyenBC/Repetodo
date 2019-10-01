@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
+import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
 
 class MainListFragment : Fragment() {
@@ -23,10 +24,11 @@ class MainListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var taskList = mutableListOf<String>("Go to shopping", "Pick kids", "Write emails")
+
+        val viewModel = MainListViewModel()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = MainTaskRecyclerAdapter(taskList)
+        viewAdapter = MainTaskRecyclerAdapter(viewModel.taskList.value!!)
 
 
         recyclerView = binding.taskRecyclerView.apply {
@@ -43,10 +45,10 @@ class MainListFragment : Fragment() {
         }
 
         binding.addButton.setOnClickListener{
-            taskList.add(binding.newTaskEditText.text.toString())
+            viewModel.addNewTask(binding.newTaskEditText.text.toString())
             recyclerView.adapter!!.notifyDataSetChanged()
             Log.i("MainListFragment", binding.newTaskEditText.text.toString())
-            Log.i("MainListFragment", taskList.joinToString())
+            Log.i("MainListFragment", viewModel.taskList.value!!.joinToString())
         }
 
 
