@@ -8,8 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
-class MainTaskRecyclerAdapter (private val myDataset: MutableList<String>) :
+class MainTaskRecyclerAdapter:
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
+    var myDataset = listOf<String>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and

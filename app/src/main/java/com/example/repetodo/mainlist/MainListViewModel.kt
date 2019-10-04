@@ -6,15 +6,24 @@ import androidx.lifecycle.ViewModel
 
 class MainListViewModel : ViewModel() {
 
-    private var _taskList = MutableLiveData<MutableList<String>> ()
-    val taskList: LiveData<MutableList<String>>
+    private var _taskList = MutableLiveData<List<String>> ()
+    val taskList: LiveData<List<String>>
         get() = _taskList
 
     init {
-        _taskList.value = mutableListOf<String>("Go to shopping", "Pick kids", "Write emails")
+        _taskList.value = listOf<String>("Go to shopping", "Pick kids", "Write emails")
     }
 
     fun addNewTask(newTaskTitle: String) {
-        _taskList.value!!.add(newTaskTitle)
+        _taskList.value = _taskList.value!!.plus(newTaskTitle)
+    }
+
+    fun deleteTask(taskId: Int) {
+        // delete task
+        _taskList.value = _taskList.value!!.drop(taskId)
+    }
+
+    fun editTask(taskId: Int, taskTitle: String) {
+        //modify the task
     }
 }

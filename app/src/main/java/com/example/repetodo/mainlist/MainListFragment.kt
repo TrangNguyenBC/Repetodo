@@ -7,17 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
-import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
+import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
 class MainListFragment : Fragment() {
     private lateinit var binding: FragmentMainListBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var viewModel: MainListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,11 +27,22 @@ class MainListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val viewModel = MainListViewModel()
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
-        viewManager = LinearLayoutManager(this.context)
-        viewAdapter = MainTaskRecyclerAdapter(viewModel.taskList.value!!)
+        // Use ViewModelProviders instead of construct view Model
+        viewModel = ViewModelProviders.of(this).get(MainListViewModel::class.java)
 
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
+        binding.viewModel = viewModel
+
+        viewManager = LinearLayoutManager(this.context)
+        var viewAdapter = MainTaskRecyclerAdapter()
+        binding.taskRecyclerView.adapter = viewAdapter
+
+        // update data set inside the adapter
+        viewModel.taskList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewAdapter.myDataset = it
+            }
+        })
 
         recyclerView = binding.taskRecyclerView.apply {
             // use this setting to improve performance if you know that changes
@@ -46,9 +59,6 @@ class MainListFragment : Fragment() {
 
         binding.addButton.setOnClickListener{
             viewModel.addNewTask(binding.newTaskEditText.text.toString())
-            recyclerView.adapter!!.notifyDataSetChanged()
-            Log.i("MainListFragment", binding.newTaskEditText.text.toString())
-            Log.i("MainListFragment", viewModel.taskList.value!!.joinToString())
         }
 
 
