@@ -61,8 +61,11 @@ class MainListFragment : Fragment() {
             viewModel.addNewTask(binding.newTaskEditText.text.toString())
         }
 
-
         return binding.root
+    }
+
+    fun deleteBtnItemClicked(position: Int) {
+        viewModel.deleteTask(position)
     }
 
 }

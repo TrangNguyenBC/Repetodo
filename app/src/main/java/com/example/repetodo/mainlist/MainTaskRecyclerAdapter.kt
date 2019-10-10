@@ -35,14 +35,9 @@ class MainTaskRecyclerAdapter:
         return MyViewHolder(view)
     }
 
-    fun enableEditDelBtn(holder: MyViewHolder) {
-        holder.view.editBtn.visibility = View.VISIBLE
-        holder.view.deleteBtn.visibility = View.VISIBLE
-    }
-
-    fun disableEditDelBtn(holder: MyViewHolder) {
-        holder.view.editBtn.visibility = View.INVISIBLE
-        holder.view.deleteBtn.visibility = View.INVISIBLE
+    fun changeBtnStatus(holder: MyViewHolder, status: Int) {
+        holder.view.editBtn.visibility = status
+        holder.view.deleteBtn.visibility = status
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -51,16 +46,14 @@ class MainTaskRecyclerAdapter:
         // - replace the contents of the view with that element
         Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
         holder.view.taskTitle.text = myDataset[position]
+
         holder.view.checkBox.setOnClickListener {
-            if (holder.view.checkBox.isChecked) enableEditDelBtn(holder)
-            //else disableEditDelBtn(holder)
+            Log.i("MainTaskRecyclerAdapter", "Check box $position is clicked")
+            if (holder.view.checkBox.isChecked) changeBtnStatus(holder, View.VISIBLE)
+            else changeBtnStatus(holder, View.INVISIBLE)
         }
         holder.view.deleteBtn.setOnClickListener {
-            Log.i("MainTaskRecyclerAdapter", "Delete item $position")
-            disableEditDelBtn(holder)
-//            myDataset = myDataset.drop(position)
-//            notifyItemRemoved(position)
-            // Log.i("MainTaskRecyclerAdapter", "Delete item $position")
+            Log.i("MainTaskRecyclerAdapter", "Item $position should be deleted")
         }
     }
 
