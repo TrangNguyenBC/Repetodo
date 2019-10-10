@@ -20,7 +20,6 @@ class MainTaskRecyclerAdapter:
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
-    // Each data item is just a string in this case that is shown in a TextView.
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
 
@@ -36,12 +35,33 @@ class MainTaskRecyclerAdapter:
         return MyViewHolder(view)
     }
 
+    fun enableEditDelBtn(holder: MyViewHolder) {
+        holder.view.editBtn.visibility = View.VISIBLE
+        holder.view.deleteBtn.visibility = View.VISIBLE
+    }
+
+    fun disableEditDelBtn(holder: MyViewHolder) {
+        holder.view.editBtn.visibility = View.INVISIBLE
+        holder.view.deleteBtn.visibility = View.INVISIBLE
+    }
+
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
         holder.view.taskTitle.text = myDataset[position]
+        holder.view.checkBox.setOnClickListener {
+            if (holder.view.checkBox.isChecked) enableEditDelBtn(holder)
+            //else disableEditDelBtn(holder)
+        }
+        holder.view.deleteBtn.setOnClickListener {
+            Log.i("MainTaskRecyclerAdapter", "Delete item $position")
+            disableEditDelBtn(holder)
+//            myDataset = myDataset.drop(position)
+//            notifyItemRemoved(position)
+            // Log.i("MainTaskRecyclerAdapter", "Delete item $position")
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
