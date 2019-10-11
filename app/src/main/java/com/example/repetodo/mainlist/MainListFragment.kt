@@ -15,7 +15,11 @@ import com.example.repetodo.R
 import com.example.repetodo.databinding.FragmentMainListBinding
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
-class MainListFragment : Fragment() {
+interface ItemDeleteListener {
+    fun onItemDelete(position: Int)
+}
+
+class MainListFragment : Fragment(), ItemDeleteListener {
     private lateinit var binding: FragmentMainListBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -34,7 +38,7 @@ class MainListFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewManager = LinearLayoutManager(this.context)
-        var viewAdapter = MainTaskRecyclerAdapter()
+        var viewAdapter = MainTaskRecyclerAdapter(this)
         binding.taskRecyclerView.adapter = viewAdapter
 
         // update data set inside the adapter
@@ -64,7 +68,7 @@ class MainListFragment : Fragment() {
         return binding.root
     }
 
-    fun deleteBtnItemClicked(position: Int) {
+    override fun onItemDelete(position: Int) {
         viewModel.deleteTask(position)
     }
 

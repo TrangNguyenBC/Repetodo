@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
-class MainTaskRecyclerAdapter:
+class MainTaskRecyclerAdapter(var itemDeleteListener: ItemDeleteListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
     var myDataset = listOf<String>()
         set(value) {
@@ -54,6 +54,8 @@ class MainTaskRecyclerAdapter:
         }
         holder.view.deleteBtn.setOnClickListener {
             Log.i("MainTaskRecyclerAdapter", "Item $position should be deleted")
+
+            itemDeleteListener.onItemDelete(position)
         }
     }
 
