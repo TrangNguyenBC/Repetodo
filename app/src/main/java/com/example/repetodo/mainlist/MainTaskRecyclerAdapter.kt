@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
 class MainTaskRecyclerAdapter(var itemDeleteListener: ItemDeleteListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
-    var myDataset = listOf<String>()
+    var myDataset = listOf<TaskData>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -25,7 +25,7 @@ class MainTaskRecyclerAdapter(var itemDeleteListener: ItemDeleteListener):
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MainTaskRecyclerAdapter.MyViewHolder {
+                                    viewType: Int): MyViewHolder {
         Log.i("MainTaskRecyclerAdapter", "onCreateViewHolder is called")
         // create a new view
         val view = LayoutInflater.from(parent.context)
@@ -45,7 +45,10 @@ class MainTaskRecyclerAdapter(var itemDeleteListener: ItemDeleteListener):
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
-        holder.view.taskTitle.text = myDataset[position]
+        holder.view.taskTitle.text = myDataset[position].title
+        holder.view.checkBox.isChecked = (myDataset[position].status == 1)
+        holder.view.editBtn.visibility = View.INVISIBLE
+        holder.view.deleteBtn.visibility = View.INVISIBLE
 
         holder.view.checkBox.setOnClickListener {
             Log.i("MainTaskRecyclerAdapter", "Check box $position is clicked")

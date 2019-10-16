@@ -7,16 +7,20 @@ import androidx.lifecycle.ViewModel
 
 class MainListViewModel : ViewModel() {
 
-    private var _taskList = MutableLiveData<List<String>> ()
-    val taskList: LiveData<List<String>>
+    private var _taskList = MutableLiveData<List<TaskData>> ()
+    val taskList: LiveData<List<TaskData>>
         get() = _taskList
 
     init {
-        _taskList.value = listOf<String>("Go to shopping", "Pick kids", "Write emails")
+        val task1 = TaskData("Go to shopping", 0)
+        val task2 = TaskData("Pick kids", 0)
+        val task3 = TaskData("Write emails", 0)
+        _taskList.value = listOf<TaskData>(task1, task2, task3)
     }
 
     fun addNewTask(newTaskTitle: String) {
-        _taskList.value = _taskList.value!!.plus(newTaskTitle)
+        val newtask = TaskData(newTaskTitle, 0)
+        _taskList.value = _taskList.value!!.plus(newtask)
         Log.i("MainListViewModel", "Add a new task")
         Log.i("MainListViewModel", _taskList.value!!.joinToString())
     }
@@ -28,7 +32,7 @@ class MainListViewModel : ViewModel() {
 
     }
 
-    fun editTask(taskId: Int, taskTitle: String) {
-        //modify the task
-    }
+//    fun editTask(taskId: Int, taskTitle: String) {
+//        //modify the task
+//    }
 }
