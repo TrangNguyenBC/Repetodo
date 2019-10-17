@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
+import com.example.repetodo.database.TaskInformation
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
-class MainTaskRecyclerAdapter(var itemDeleteListener: ItemDeleteListener):
+class MainTaskRecyclerAdapter(private var itemDeleteListener: ItemDeleteListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
-    var myDataset = listOf<TaskData>()
+    var myDataset = listOf<TaskInformation>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -45,8 +46,8 @@ class MainTaskRecyclerAdapter(var itemDeleteListener: ItemDeleteListener):
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
-        holder.view.taskTitle.text = myDataset[position].title
-        holder.view.checkBox.isChecked = (myDataset[position].status == 1)
+        holder.view.taskTitle.text = myDataset[position].taskTitle
+        holder.view.checkBox.isChecked = (myDataset[position].taskStatus == 1)
         holder.view.editBtn.visibility = View.INVISIBLE
         holder.view.deleteBtn.visibility = View.INVISIBLE
 

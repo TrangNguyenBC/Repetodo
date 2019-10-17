@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
+import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
-import kotlinx.android.synthetic.main.fragment_task_item.view.*
 
 interface ItemDeleteListener {
     fun onItemDelete(position: Int)
@@ -32,10 +32,21 @@ class MainListFragment : Fragment(), ItemDeleteListener {
     ): View? {
 
         // Use ViewModelProviders instead of construct view Model
-        viewModel = ViewModelProviders.of(this).get(MainListViewModel::class.java)
+        // viewModel = ViewModelProviders.of(this).get(MainListViewModel::class.java)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
+        // binding.viewModel = viewModel
+
+        // Database & view model
+        val application = requireNotNull(this.activity).application
+        val dataSource = TaskDatabase.getInstance(application).taskDatabaseDao
+        val viewModelFactory = MainListViewModelFactory(dataSource, application)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainListViewModel::class.java)
+
         binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+
+
 
         viewManager = LinearLayoutManager(this.context)
         var viewAdapter = MainTaskRecyclerAdapter(this)

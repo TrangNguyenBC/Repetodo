@@ -1,6 +1,7 @@
 package com.example.repetodo.database
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -41,12 +42,10 @@ interface TaskDatabaseDao {
     fun clear()
 
     /**
-     * Selects and returns all rows in the table,
-     *
-     * sorted by start time in descending order.
+     * Selects and returns all rows in the table
      */
-    @Query("SELECT * FROM task_list_table ORDER BY taskId DESC")
-    fun getAllTasks(): LiveData<List<TaskInformation>>
+    @Query("SELECT * FROM task_list_table")
+    fun getAllTasks(): List<TaskInformation>
 
     /**
      * Selects and returns the latest task.

@@ -1,34 +1,72 @@
 package com.example.repetodo.mainlist
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.repetodo.database.TaskDatabaseDao
+import com.example.repetodo.database.TaskInformation
+import kotlinx.coroutines.*
 
-class MainListViewModel : ViewModel() {
+class MainListViewModel(val database: TaskDatabaseDao, application: Application) : AndroidViewModel(application) {
 
-    private var _taskList = MutableLiveData<List<TaskData>> ()
-    val taskList: LiveData<List<TaskData>>
+    private var viewModelJob = Job()
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+
+
+    private var _taskList = MutableLiveData<List<TaskInformation>> ()
+    val taskList: LiveData<List<TaskInformation>>
         get() = _taskList
 
     init {
-        val task1 = TaskData("Go to shopping", 0)
-        val task2 = TaskData("Pick kids", 0)
-        val task3 = TaskData("Write emails", 0)
-        _taskList.value = listOf<TaskData>(task1, task2, task3)
+        initializeTaskList()
+    }
+
+    private fun initializeTaskList() {
+        uiScope.launch {
+            _taskList.value = getAllTasks()
+        }
+
+    }
+    private suspend fun getAllTasks(): List<TaskInformation>? {
+        return withContext(Dispatchers.IO) {
+            var task = database.getAllTasks()
+            task
+        }
     }
 
     fun addNewTask(newTaskTitle: String) {
-        val newtask = TaskData(newTaskTitle, 0)
-        _taskList.value = _taskList.value!!.plus(newtask)
+        uiScope.launch {
+            var newTask = TaskInformation()
+            newTask.taskStatus = 0
+            newTask.taskTitle = newTaskTitle
+            insert(newTask)
+            _taskList.value = getAllTasks()
+        }
+
+
         Log.i("MainListViewModel", "Add a new task")
         Log.i("MainListViewModel", _taskList.value!!.joinToString())
     }
 
+    private suspend fun insert(task: TaskInformation) {
+        withContext(Dispatchers.IO) {
+            database.insert(task)
+        }
+    }
 
     fun deleteTask(taskId: Int) {
+        Log.i("MainListViewModel","Delete $taskId")
 
-        _taskList.value = _taskList.value!!.subList(0, taskId) + _taskList.value!!.subList(taskId+1, _taskList.value!!.size)
+//        _taskList.value = _taskList.value!!.subList(0, taskId) + _taskList.value!!.subList(taskId+1, _taskList.value!!.size)
 
     }
 
