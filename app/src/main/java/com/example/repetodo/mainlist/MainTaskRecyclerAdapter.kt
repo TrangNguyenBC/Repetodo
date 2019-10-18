@@ -59,7 +59,7 @@ class MainTaskRecyclerAdapter(private var itemDeleteListener: ItemDeleteListener
         holder.view.deleteBtn.setOnClickListener {
             Log.i("MainTaskRecyclerAdapter", "Item $position should be deleted")
 
-            itemDeleteListener.onItemDelete(position)
+            itemDeleteListener.onItemDelete(myDataset[position].taskId)
         }
     }
 

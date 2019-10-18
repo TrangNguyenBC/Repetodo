@@ -26,6 +26,14 @@ interface TaskDatabaseDao {
     fun update(task: TaskInformation)
 
     /**
+     * Delete from the table.
+     *
+     * @param key Long to match
+     */
+    @Query("DELETE FROM task_list_table WHERE taskId = :key")
+    fun delete(key: Long)
+
+    /**
      * Selects and returns the row that matches the supplied start time, which is our key.
      *
      * @param key startTimeMilli to match

@@ -27,10 +27,10 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         get() = _taskList
 
     init {
-        initializeTaskList()
+        getTaskList()
     }
 
-    private fun initializeTaskList() {
+    private fun getTaskList() {
         uiScope.launch {
             _taskList.value = getAllTasks()
         }
@@ -49,7 +49,7 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
             newTask.taskStatus = 0
             newTask.taskTitle = newTaskTitle
             insert(newTask)
-            _taskList.value = getAllTasks()
+            getTaskList()
         }
 
 
@@ -63,11 +63,21 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         }
     }
 
-    fun deleteTask(taskId: Int) {
+    fun deleteTask(taskId: Long) {
+        uiScope.launch {
+            delete(taskId)
+            getTaskList()
+        }
         Log.i("MainListViewModel","Delete $taskId")
 
 //        _taskList.value = _taskList.value!!.subList(0, taskId) + _taskList.value!!.subList(taskId+1, _taskList.value!!.size)
 
+    }
+
+    private suspend fun delete(taskId: Long) {
+        withContext(Dispatchers.IO) {
+            database.delete(taskId)
+        }
     }
 
 //    fun editTask(taskId: Int, taskTitle: String) {
