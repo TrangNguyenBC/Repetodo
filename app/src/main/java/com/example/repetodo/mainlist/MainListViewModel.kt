@@ -80,7 +80,26 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         }
     }
 
-//    fun editTask(taskId: Int, taskTitle: String) {
-//        //modify the task
-//    }
+    fun updateTask(taskId: Long, taskTitle: String) {
+        Log.i("MainListViewModel","update $taskId")
+        uiScope.launch {
+            var task = getTask(taskId)
+            task!!.taskTitle = taskTitle
+            update(task)
+        }
+    }
+
+    private suspend fun getTask(taskId: Long): TaskInformation? {
+        return withContext(Dispatchers.IO) {
+            var task = database.get(taskId)
+            task
+        }
+    }
+
+    private suspend fun update(task: TaskInformation) {
+        withContext(Dispatchers.IO) {
+            database.update(task)
+        }
+    }
+
 }

@@ -15,7 +15,7 @@ import com.example.repetodo.R
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
 
-class MainListFragment : Fragment(), ItemDeleteListener {
+class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -79,8 +79,13 @@ class MainListFragment : Fragment(), ItemDeleteListener {
         viewModel.deleteTask(id)
     }
 
+    override fun onItemUpdate(id: Long, title: String) {
+        viewModel.updateTask(id, title)
+    }
+
 }
 
-interface ItemDeleteListener {
+interface ItemActionListener {
     fun onItemDelete(id: Long)
+    fun onItemUpdate(id: Long, title: String)
 }

@@ -1,5 +1,6 @@
 package com.example.repetodo.mainlist
 
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import com.example.repetodo.database.TaskInformation
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
+import java.lang.NullPointerException
 
-class MainTaskRecyclerAdapter(private var itemDeleteListener: ItemDeleteListener):
+class MainTaskRecyclerAdapter(private var itemDeleteListener: ItemActionListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
     var myDataset = listOf<TaskInformation>()
         set(value) {
@@ -43,10 +45,18 @@ class MainTaskRecyclerAdapter(private var itemDeleteListener: ItemDeleteListener
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        var id = myDataset[position].taskId
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
-        holder.view.taskTitle.text = myDataset[position].taskTitle
+        holder.view.taskTitle.apply {
+            isFocusable = true
+            isFocusableInTouchMode = true
+            inputType = InputType.TYPE_NULL
+            setText(myDataset[position].taskTitle)
+        }
+
+        // set the status
         holder.view.checkBox.isChecked = (myDataset[position].taskStatus == 1)
         holder.view.editBtn.visibility = View.INVISIBLE
         holder.view.deleteBtn.visibility = View.INVISIBLE
@@ -59,7 +69,13 @@ class MainTaskRecyclerAdapter(private var itemDeleteListener: ItemDeleteListener
         holder.view.deleteBtn.setOnClickListener {
             Log.i("MainTaskRecyclerAdapter", "Item $position should be deleted")
 
-            itemDeleteListener.onItemDelete(myDataset[position].taskId)
+            itemDeleteListener.onItemDelete(id)
+        }
+        holder.view.editBtn.setOnClickListener {
+            var newTitle = holder.view.taskTitle.text.toString()
+            Log.i("MainTaskRecyclerAdapter", "Item $id should be updated to $newTitle")
+
+            itemDeleteListener.onItemUpdate(id, newTitle)
         }
     }
 
