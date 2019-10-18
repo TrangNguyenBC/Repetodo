@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
+import android.view.inputmethod.InputMethodManager
+import android.content.Context;
 
 class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
@@ -70,6 +72,8 @@ class MainListFragment : Fragment(), ItemActionListener {
 
         binding.addButton.setOnClickListener{
             viewModel.addNewTask(binding.newTaskEditText.text.toString())
+            hideSoftKeyboard()
+            resetNewTaskEditText()
         }
 
         return binding.root
@@ -81,6 +85,15 @@ class MainListFragment : Fragment(), ItemActionListener {
 
     override fun onItemUpdate(id: Long, title: String) {
         viewModel.updateTask(id, title)
+    }
+
+    private fun hideSoftKeyboard() {
+        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
+    }
+
+    private fun resetNewTaskEditText() {
+        binding.newTaskEditText.setText("")
     }
 
 }
