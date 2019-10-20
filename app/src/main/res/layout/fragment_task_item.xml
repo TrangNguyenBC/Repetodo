@@ -22,15 +22,6 @@
         android:layout_weight="25"/>
 
     <Button
-        android:id="@+id/editBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@string/font_mono"
-        android:visibility="invisible"
-        android:layout_weight="1"
-        android:text="Edit" />
-
-    <Button
         android:id="@+id/deleteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
