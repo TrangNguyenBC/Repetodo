@@ -38,10 +38,6 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
         return MyViewHolder(view)
     }
 
-    fun changeBtnStatus(holder: MyViewHolder, status: Int) {
-        holder.view.deleteBtn.visibility = status
-    }
-
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var id = myDataset[position].taskId
@@ -58,17 +54,9 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
 
         // set the status
         holder.view.checkBox.isChecked = (myDataset[position].taskStatus == 1)
-        holder.view.deleteBtn.visibility = View.INVISIBLE
 
         holder.view.checkBox.setOnClickListener {
             Log.i("MainTaskRecyclerAdapter", "Check box $position is clicked")
-            if (holder.view.checkBox.isChecked) changeBtnStatus(holder, View.VISIBLE)
-            else changeBtnStatus(holder, View.INVISIBLE)
-        }
-        holder.view.deleteBtn.setOnClickListener {
-            Log.i("MainTaskRecyclerAdapter", "Item $position should be deleted")
-
-            itemActionListener.onItemDelete(id)
         }
 
         holder.view.taskTitle.setOnFocusChangeListener { _, hasFocus ->
