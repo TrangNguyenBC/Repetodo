@@ -52,7 +52,7 @@ interface TaskDatabaseDao {
     /**
      * Selects and returns all rows in the table
      */
-    @Query("SELECT * FROM task_list_table")
+    @Query("SELECT * FROM task_list_table ORDER BY taskId DESC")
     fun getAllTasks(): List<TaskInformation>
 
     /**
