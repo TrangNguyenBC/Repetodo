@@ -80,6 +80,11 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
         }
     }
 
+    fun removeItem(position: Int) {
+        itemActionListener.onItemDelete(myDataset[position].taskId)
+        Log.i("MainTaskRecyclerAdapter", "Receive the request to delete $position")
+    }
+
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.size
 }
