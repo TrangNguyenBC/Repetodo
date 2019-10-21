@@ -56,6 +56,7 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
         holder.view.checkBox.isChecked = (myDataset[position].taskStatus == 1)
 
         holder.view.checkBox.setOnClickListener {
+            itemActionListener.onItemCheckUpdate(id, holder.view.checkBox.isChecked)
             Log.i("MainTaskRecyclerAdapter", "Check box $position is clicked")
         }
 

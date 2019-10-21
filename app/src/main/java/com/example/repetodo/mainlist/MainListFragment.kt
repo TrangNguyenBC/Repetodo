@@ -101,6 +101,10 @@ class MainListFragment : Fragment(), ItemActionListener {
         viewModel.updateTask(id, title)
     }
 
+    override fun onItemCheckUpdate(id: Long, checked: Boolean) {
+        viewModel.updateTaskStatus(id, checked)
+    }
+
     private fun hideSoftKeyboard() {
         val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
@@ -115,4 +119,5 @@ class MainListFragment : Fragment(), ItemActionListener {
 interface ItemActionListener {
     fun onItemDelete(id: Long)
     fun onItemUpdate(id: Long, title: String)
+    fun onItemCheckUpdate(id: Long, checked: Boolean)
 }

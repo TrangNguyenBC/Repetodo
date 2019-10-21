@@ -89,6 +89,15 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         }
     }
 
+    fun updateTaskStatus(taskId: Long, status: Boolean) {
+        Log.i("MainListViewModel","update $taskId")
+        uiScope.launch {
+            var task = getTask(taskId)
+            task!!.taskStatus = if (status == true) 1 else 0
+            update(task)
+        }
+    }
+
     private suspend fun getTask(taskId: Long): TaskInformation? {
         return withContext(Dispatchers.IO) {
             var task = database.get(taskId)
