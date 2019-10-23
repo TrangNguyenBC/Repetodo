@@ -13,24 +13,6 @@
         android:layout_height="match_parent"
         android:fontFamily="@string/font_mono">
 
-
-        <EditText
-            android:id="@+id/newTaskEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@string/font_mono"
-            android:hint="@string/add_task_hint"
-            android:inputType="text"
-            android:text="@string/empty_string"
-            app:layout_constraintEnd_toStartOf="@id/addButton"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
@@ -44,7 +26,7 @@
             app:layout_constraintBottom_toTopOf="@+id/taskRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/newTaskEditText"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView

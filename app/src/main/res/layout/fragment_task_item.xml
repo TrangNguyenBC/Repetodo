@@ -19,6 +19,7 @@
         android:fontFamily="@string/font_mono"
         android:text=""
         android:textSize="18sp"
-        android:layout_weight="25"/>
+        android:layout_weight="25"
+        android:singleLine="true"/>
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.example.repetodo.R
 import com.example.repetodo.database.TaskInformation
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 import java.lang.NullPointerException
+import android.view.KeyEvent
 
 class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
@@ -67,6 +68,14 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
                 itemActionListener.onItemUpdate(id, newTitle)
             }
         }
+
+        holder.view.taskTitle.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                //Perform Code
+                itemActionListener.hideSoftKeyboard()
+            }
+            false
+        })
     }
 
     fun removeItem(position: Int) {
