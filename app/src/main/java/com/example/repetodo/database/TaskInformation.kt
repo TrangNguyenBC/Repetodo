@@ -12,6 +12,6 @@ data class TaskInformation(
     @ColumnInfo(name = "task_title")
     var taskTitle: String = "",
 
-    @ColumnInfo(name = "quality_rating")
+    @ColumnInfo(name = "task_status")
     var taskStatus: Int = 0
 )

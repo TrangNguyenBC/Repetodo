@@ -56,6 +56,18 @@ interface TaskDatabaseDao {
     fun getAllTasks(): List<TaskInformation>
 
     /**
+     * Selects and returns all rows in the table with specific value of status
+     */
+    @Query("SELECT * FROM task_list_table WHERE task_status = :status ORDER BY taskId DESC")
+    fun getTasksWithStatus(status: Int): List<TaskInformation>
+
+    /**
+     * Selects and returns all rows in the table with specific value of status
+     */
+    @Query("SELECT * FROM task_list_table WHERE task_title = :title ORDER BY taskId DESC")
+    fun getTasksWithTitle(title: String): List<TaskInformation>
+
+    /**
      * Selects and returns the latest task.
      */
     @Query("SELECT * FROM task_list_table ORDER BY taskId DESC LIMIT 1")

@@ -20,13 +20,16 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-
+    private var _hideCompletedTasks = MutableLiveData<Boolean> ()
+    val hideCompletedTasks: LiveData<Boolean>
+        get() = _hideCompletedTasks
 
     private var _taskList = MutableLiveData<List<TaskInformation>> ()
     val taskList: LiveData<List<TaskInformation>>
         get() = _taskList
 
     init {
+        _hideCompletedTasks.value = true
         getTaskList()
     }
 
@@ -34,11 +37,16 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         uiScope.launch {
             _taskList.value = getAllTasks()
         }
-
     }
+
     private suspend fun getAllTasks(): List<TaskInformation>? {
         return withContext(Dispatchers.IO) {
-            var task = database.getAllTasks()
+            lateinit var task: List<TaskInformation>
+            if (_hideCompletedTasks.value!!)
+                task = database.getTasksWithStatus(0)
+            else
+                task = database.getAllTasks()
+
             task
         }
     }
@@ -109,6 +117,11 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         withContext(Dispatchers.IO) {
             database.update(task)
         }
+    }
+
+    fun changeHideSetting() {
+        _hideCompletedTasks.value = !_hideCompletedTasks.value!!
+        getTaskList()
     }
 
 }

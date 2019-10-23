@@ -71,6 +71,8 @@ class MainListFragment : Fragment(), ItemActionListener {
 
         }
 
+
+
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
                 return false
@@ -87,6 +89,19 @@ class MainListFragment : Fragment(), ItemActionListener {
         binding.addButton.setOnClickListener{
             viewModel.addNewTask("")
         }
+
+        binding.hideButton.setOnClickListener{
+            viewModel.changeHideSetting()
+        }
+
+        viewModel.hideCompletedTasks.observe(viewLifecycleOwner, Observer {value ->
+            if (value)
+                binding.hideButton.text = "Show completed task"
+            else
+                binding.hideButton.text = "Hide completed task"
+        })
+
+
 
         return binding.root
     }
