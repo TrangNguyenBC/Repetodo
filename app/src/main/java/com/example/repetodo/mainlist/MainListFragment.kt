@@ -101,6 +101,9 @@ class MainListFragment : Fragment(), ItemActionListener {
                 binding.hideButton.text = "Hide completed task"
         })
 
+        binding.insertButton.setOnClickListener {
+            viewModel.insertTemplate()
+        }
 
 
         return binding.root

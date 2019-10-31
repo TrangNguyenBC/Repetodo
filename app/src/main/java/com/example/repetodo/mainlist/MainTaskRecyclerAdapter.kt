@@ -11,6 +11,7 @@ import com.example.repetodo.database.TaskInformation
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 import java.lang.NullPointerException
 import android.view.KeyEvent
+import kotlinx.android.synthetic.main.fragment_main_list.view.*
 
 class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {

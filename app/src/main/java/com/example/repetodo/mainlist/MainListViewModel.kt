@@ -124,4 +124,12 @@ class MainListViewModel(val database: TaskDatabaseDao, application: Application)
         getTaskList()
     }
 
+    fun insertTemplate() {
+        Log.i("MainListViewModel","Insert a list of task information")
+        var taskString = listOf<String>("task 1", "task 2", "task 3")
+        for (task in taskString) {
+            addNewTask(task)
+        }
+    }
+
 }
