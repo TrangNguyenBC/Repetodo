@@ -7,4 +7,6 @@
     <string name="show_button_text">Show completed task</string>
     <string name="hide_button_text">Hide completed task</string>
     <string name="insert_button_text">Insert</string>
+    <string name="templateMenuItemText">Templates</string>
+
 </resources>
