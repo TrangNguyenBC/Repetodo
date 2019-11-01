@@ -2,9 +2,6 @@ package com.example.repetodo.mainlist
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,8 +14,10 @@ import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
+import android.view.*
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 
 class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
@@ -32,10 +31,8 @@ class MainListFragment : Fragment(), ItemActionListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        // Use ViewModelProviders instead of construct view Model
-        // viewModel = ViewModelProviders.of(this).get(MainListViewModel::class.java)
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
+        setHasOptionsMenu(true)
         // binding.viewModel = viewModel
 
         // Database & view model
@@ -107,10 +104,19 @@ class MainListFragment : Fragment(), ItemActionListener {
             viewModel.insertTemplate()
         }
 
-        binding.templateButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.action_mainListFragment_to_templateListFragment))
-
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Log.i("MainListFragment", "Navigate to template list")
+        return NavigationUI.onNavDestinationSelected(item!!,
+            view!!.findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     override fun onItemDelete(id: Long) {
