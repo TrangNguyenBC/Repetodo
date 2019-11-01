@@ -17,6 +17,7 @@ import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 
 class MainListFragment : Fragment(), ItemActionListener {
@@ -106,12 +107,8 @@ class MainListFragment : Fragment(), ItemActionListener {
             viewModel.insertTemplate()
         }
 
-        binding.templateButton.setOnClickListener {view: View ->
-            Log.i("MainListFragment", "Navigate to Template List Fragment")
-            view.findNavController().navigate(R.id.action_mainListFragment_to_templateListFragment)
-
-        }
-
+        binding.templateButton.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_mainListFragment_to_templateListFragment))
 
         return binding.root
     }
