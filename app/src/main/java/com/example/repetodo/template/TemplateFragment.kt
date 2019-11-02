@@ -1,6 +1,12 @@
-package com.example.repetodo.mainlist
+package com.example.repetodo.template
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -9,39 +15,39 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
-import com.example.repetodo.database.TaskDatabase
-import com.example.repetodo.databinding.FragmentMainListBinding
-import android.view.inputmethod.InputMethodManager
-import android.content.Context;
-import android.view.*
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
+import com.example.repetodo.database.TaskDatabase
+import com.example.repetodo.databinding.FragmentTemplateBinding
+import com.example.repetodo.mainlist.MainListViewModelFactory
 
-class MainListFragment : Fragment(), ItemActionListener {
-    private lateinit var binding: FragmentMainListBinding
+class TemplateFragment : Fragment(), ItemActionListener {
+    private lateinit var binding: FragmentTemplateBinding
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var viewModel: MainListViewModel
+    private lateinit var viewModel: TemplateViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_template, container, false)
+        Log.i("TemplateFragment", "Open template fragment")
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
-        setHasOptionsMenu(true)
+//        binding.addTemplateTaskButton.setOnClickListener{
+//            viewModel.addNewTask("")
+//        }
 
         // Database & view model
         val application = requireNotNull(this.activity).application
-        val dataSource = TaskDatabase.getInstance(application).taskListDao
+        val dataSource = TaskDatabase.getInstance(application).templateDao
         val viewModelFactory =
-            MainListViewModelFactory(
+            TemplateViewModelFactory(
                 dataSource,
                 application
             )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TemplateViewModel::class.java)
 
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
@@ -49,17 +55,17 @@ class MainListFragment : Fragment(), ItemActionListener {
 
 
         viewManager = LinearLayoutManager(this.context)
-        var viewAdapter = MainTaskRecyclerAdapter(this)
-        binding.taskRecyclerView.adapter = viewAdapter
+        var viewAdapter = TemplateRecyclerAdapter(this)
+        binding.templateTaskRecyclerView.adapter = viewAdapter
 
         // update data set inside the adapter
-        viewModel.taskList.observe(viewLifecycleOwner, Observer {
+        viewModel.templateTaskList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewAdapter.myDataset = it
             }
         })
 
-        recyclerView = binding.taskRecyclerView.apply {
+        recyclerView = binding.templateTaskRecyclerView.apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -87,38 +93,11 @@ class MainListFragment : Fragment(), ItemActionListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         // add a new task
-        binding.addButton.setOnClickListener{
+        binding.addTemplateTaskButton.setOnClickListener{
             viewModel.addNewTask("")
         }
 
-        // show/hide completed task setting
-        binding.hideButton.setOnClickListener{
-            viewModel.changeHideSetting()
-        }
-
-        viewModel.hideCompletedTasks.observe(viewLifecycleOwner, Observer {value ->
-            if (value)
-                binding.hideButton.text = "Show completed task"
-            else
-                binding.hideButton.text = "Hide completed task"
-        })
-
-        binding.insertButton.setOnClickListener {
-            viewModel.insertTemplate()
-        }
-
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.overflow_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item,
-            view!!.findNavController())
-                ||super.onOptionsItemSelected(item)
     }
 
     override fun onItemDelete(id: Long) {
@@ -131,7 +110,7 @@ class MainListFragment : Fragment(), ItemActionListener {
     }
 
     override fun onItemCheckUpdate(id: Long, checked: Boolean) {
-        viewModel.updateTaskStatus(id, checked)
+        // do nothing
     }
 
     override fun hideSoftKeyboard() {

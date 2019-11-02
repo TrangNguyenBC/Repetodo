@@ -13,5 +13,13 @@
     <fragment
         android:id="@+id/templateListFragment"
         android:name="com.example.repetodo.templatelist.TemplateListFragment"
-        android:label="TemplateListFragment" />
+        android:label="TemplateListFragment" >
+        <action
+            android:id="@+id/action_templateListFragment_to_templateFragment"
+            app:destination="@id/templateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/templateFragment"
+        android:name="com.example.repetodo.template.TemplateFragment"
+        android:label="TemplateFragment" />
 </navigation>

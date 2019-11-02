@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.repetodo.database.TaskDatabaseDao
+import com.example.repetodo.database.TaskListDao
 import com.example.repetodo.database.TaskInformation
 import kotlinx.coroutines.*
 
-class MainListViewModel(val database: TaskDatabaseDao, application: Application) : AndroidViewModel(application) {
+class MainListViewModel(val database: TaskListDao, application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 

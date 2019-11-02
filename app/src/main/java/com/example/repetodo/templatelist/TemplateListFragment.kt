@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.repetodo.R
 import com.example.repetodo.databinding.FragmentTemplateListBinding
 
@@ -17,6 +18,8 @@ class TemplateListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_template_list, container, false)
+        binding.textView.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_templateListFragment_to_templateFragment))
 
         return binding.root
     }

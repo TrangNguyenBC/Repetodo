@@ -4,7 +4,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.repetodo.database.TaskDatabase
-import com.example.repetodo.database.TaskDatabaseDao
+import com.example.repetodo.database.TaskListDao
 import com.example.repetodo.database.TaskInformation
 import org.junit.After
 import org.junit.Assert.*
@@ -22,19 +22,19 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 class TaskDatabaseTest {
 
-    private lateinit var taskDao: TaskDatabaseDao
+    private lateinit var taskDao: TaskListDao
     private lateinit var db: TaskDatabase
 
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        // Using an in-memory database because the information stored here disappears when the
+        // Using an in-memory databaseDao because the information stored here disappears when the
         // process is killed.
         db = Room.inMemoryDatabaseBuilder(context, TaskDatabase::class.java)
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()
-        taskDao = db.taskDatabaseDao
+        taskDao = db.taskListDao
     }
 
     @After

@@ -6,19 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 /**
- * A database that stores TaskInformation information.
- * And a global method to get access to the database.
+ * A databaseDao that stores TaskInformation information.
+ * And a global method to get access to the databaseDao.
  *
- * This pattern is pretty much the same for any database,
+ * This pattern is pretty much the same for any databaseDao,
  * so you can reuse it.
  */
-@Database(entities = [TaskInformation::class], version = 2, exportSchema = false)
+@Database(entities = [TaskInformation::class, TemplateItem::class, Template::class], version = 3, exportSchema = false)
 abstract class TaskDatabase : RoomDatabase() {
 
     /**
-     * Connects the database to the DAO.
+     * Connects the databaseDao to the DAO.
      */
-    abstract val taskDatabaseDao: TaskDatabaseDao
+    abstract val taskListDao: TaskListDao
+    abstract val templateDao: TemplateDao
 
     /**
      * Define a companion object, this allows us to add functions on the TaskDatabase class.
@@ -28,9 +29,9 @@ abstract class TaskDatabase : RoomDatabase() {
      */
     companion object {
         /**
-         * INSTANCE will keep a reference to any database returned via getInstance.
+         * INSTANCE will keep a reference to any databaseDao returned via getInstance.
          *
-         * This will help us avoid repeatedly initializing the database, which is expensive.
+         * This will help us avoid repeatedly initializing the databaseDao, which is expensive.
          *
          *  The value of a volatile variable will never be cached, and all writes and
          *  reads will be done to and from the main memory. It means that changes made by one
@@ -40,12 +41,12 @@ abstract class TaskDatabase : RoomDatabase() {
         private var INSTANCE: TaskDatabase? = null
 
         /**
-         * Helper function to get the database.
+         * Helper function to get the databaseDao.
          *
-         * If a database has already been retrieved, the previous database will be returned.
-         * Otherwise, create a new database.
+         * If a databaseDao has already been retrieved, the previous databaseDao will be returned.
+         * Otherwise, create a new databaseDao.
          *
-         * This function is threadsafe, and callers should cache the result for multiple database
+         * This function is threadsafe, and callers should cache the result for multiple databaseDao
          * calls to avoid overhead.
          *
          * This is an example of a simple Singleton pattern that takes another Singleton as an
@@ -57,14 +58,14 @@ abstract class TaskDatabase : RoomDatabase() {
          * @param context The application context Singleton, used to get access to the filesystem.
          */
         fun getInstance(context: Context): TaskDatabase {
-            // Multiple threads can ask for the database at the same time, ensure we only initialize
+            // Multiple threads can ask for the databaseDao at the same time, ensure we only initialize
             // it once by using synchronized. Only one thread may enter a synchronized block at a
             // time.
             synchronized(this) {
                 // Copy the current value of INSTANCE to a local variable so Kotlin can smart cast.
                 // Smart cast is only available to local variables.
                 var instance = INSTANCE
-                // If instance is `null` make a new database instance.
+                // If instance is `null` make a new databaseDao instance.
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
@@ -77,7 +78,7 @@ abstract class TaskDatabase : RoomDatabase() {
                         // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
                         .fallbackToDestructiveMigration()
                         .build()
-                    // Assign INSTANCE to the newly created database.
+                    // Assign INSTANCE to the newly created databaseDao.
                     INSTANCE = instance
                 }
                 // Return instance; smart cast to be non-null.
