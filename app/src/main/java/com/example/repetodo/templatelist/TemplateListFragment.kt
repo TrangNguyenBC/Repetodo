@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,7 +82,7 @@ class TemplateListFragment : Fragment(), ItemActionListener {
         }
 
         // swipe to delete task
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
                 return false
             }
@@ -93,6 +94,23 @@ class TemplateListFragment : Fragment(), ItemActionListener {
 
         var itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        // swipe left to edit the template items
+        val itemTouchHelperCallbackForDetailed = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
+                Log.i("TemplateListFragment", "navigate to template fragment")
+                view!!.findNavController().navigate(R.id.action_templateListFragment_to_templateFragment)
+
+                //viewAdapter.navigateToTemplateFragment(viewHolder.adapterPosition)
+            }
+        }
+
+        var itemTouchHelperForDetailed = ItemTouchHelper(itemTouchHelperCallbackForDetailed)
+        itemTouchHelperForDetailed.attachToRecyclerView(recyclerView)
 
         // add a new task
         binding.addTemplateButton.setOnClickListener{
