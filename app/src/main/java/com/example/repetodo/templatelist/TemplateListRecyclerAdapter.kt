@@ -1,4 +1,4 @@
-package com.example.repetodo.template
+package com.example.repetodo.templatelist
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import android.view.KeyEvent
 import com.example.repetodo.Utils.ItemActionListener
+import com.example.repetodo.database.Template
 import com.example.repetodo.database.TemplateItem
 import kotlinx.android.synthetic.main.fragment_template_item.view.*
 
-class TemplateRecyclerAdapter(private var itemActionListener: ItemActionListener):
-    RecyclerView.Adapter<TemplateRecyclerAdapter.MyViewHolder>() {
-    var myDataset = listOf<TemplateItem>()
+class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionListener):
+    RecyclerView.Adapter<TemplateListRecyclerAdapter.MyViewHolder>() {
+    var myDataset = listOf<Template>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -39,15 +40,15 @@ class TemplateRecyclerAdapter(private var itemActionListener: ItemActionListener
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var id = myDataset[position].templateItemId
+        var id = myDataset[position].templateId
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
         holder.view.templateItemTitle.apply {
             // show the task title
-            setText(myDataset[position].templateItemTitle)
+            setText(myDataset[position].templateTitle)
             // focus cursor to the end of task title
-            setSelection(myDataset[position].templateItemTitle.length)
+            setSelection(myDataset[position].templateTitle.length)
         }
 
         holder.view.templateItemTitle.setOnFocusChangeListener { _, hasFocus ->
@@ -70,7 +71,7 @@ class TemplateRecyclerAdapter(private var itemActionListener: ItemActionListener
     }
 
     fun removeItem(position: Int) {
-        itemActionListener.onItemDelete(myDataset[position].templateItemId)
+        itemActionListener.onItemDelete(myDataset[position].templateId)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

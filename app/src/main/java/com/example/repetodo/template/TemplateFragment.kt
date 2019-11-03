@@ -56,7 +56,7 @@ class TemplateFragment : Fragment(), ItemActionListener {
 
         viewManager = LinearLayoutManager(this.context)
         var viewAdapter = TemplateRecyclerAdapter(this)
-        binding.templateTaskRecyclerView.adapter = viewAdapter
+        binding.templateItemRecyclerView.adapter = viewAdapter
 
         // update data set inside the adapter
         viewModel.templateTaskList.observe(viewLifecycleOwner, Observer {
@@ -65,7 +65,7 @@ class TemplateFragment : Fragment(), ItemActionListener {
             }
         })
 
-        recyclerView = binding.templateTaskRecyclerView.apply {
+        recyclerView = binding.templateItemRecyclerView.apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -93,7 +93,7 @@ class TemplateFragment : Fragment(), ItemActionListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         // add a new task
-        binding.addTemplateTaskButton.setOnClickListener{
+        binding.addTemplateItemButton.setOnClickListener{
             viewModel.addNewTask("")
         }
 

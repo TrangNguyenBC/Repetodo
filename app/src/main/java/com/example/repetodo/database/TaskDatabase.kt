@@ -20,6 +20,7 @@ abstract class TaskDatabase : RoomDatabase() {
      */
     abstract val taskListDao: TaskListDao
     abstract val templateDao: TemplateDao
+    abstract val templateListDao: TemplateListDao
 
     /**
      * Define a companion object, this allows us to add functions on the TaskDatabase class.
