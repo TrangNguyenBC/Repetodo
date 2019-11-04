@@ -9,6 +9,9 @@
         <action
             android:id="@+id/action_mainListFragment_to_templateListFragment"
             app:destination="@id/templateListFragment" />
+        <action
+            android:id="@+id/action_mainListFragment_to_templateInsertFragment"
+            app:destination="@id/templateInsertFragment" />
     </fragment>
     <fragment
         android:id="@+id/templateListFragment"
@@ -21,5 +24,13 @@
     <fragment
         android:id="@+id/templateFragment"
         android:name="com.example.repetodo.template.TemplateFragment"
-        android:label="TemplateFragment" />
+        android:label="TemplateFragment" >
+        <argument
+            android:name="fragmentId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/templateInsertFragment"
+        android:name="com.example.repetodo.templateinsert.TemplateInsertFragment"
+        android:label="TemplateInsertFragment" />
 </navigation>

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.repetodo.database.*
 import kotlinx.coroutines.*
 
-class TemplateViewModel(val databaseDao: TemplateDao, application: Application) : AndroidViewModel(application) {
+class TemplateViewModel(val databaseDao: TemplateDao, application: Application, val templateId: Long) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 
@@ -24,19 +24,19 @@ class TemplateViewModel(val databaseDao: TemplateDao, application: Application) 
         get() = _templateTaskList
 
     init {
-        getTaskList()
+        getItemList()
     }
 
-    private fun getTaskList() {
+    private fun getItemList() {
         uiScope.launch {
-            _templateTaskList.value = getAllItems()
+            _templateTaskList.value = getAllItemsOfTemplate()
         }
     }
 
-    private suspend fun getAllItems(): List<TemplateItem>? {
+    private suspend fun getAllItemsOfTemplate(): List<TemplateItem>? {
         return withContext(Dispatchers.IO) {
             lateinit var task: List<TemplateItem>
-            task = databaseDao.getAllItems()
+            task = databaseDao.getItemWithTemplate(templateId)
             task
         }
     }
@@ -45,8 +45,9 @@ class TemplateViewModel(val databaseDao: TemplateDao, application: Application) 
         uiScope.launch {
             var newItem = TemplateItem()
             newItem.templateItemTitle = newTaskTitle
+            newItem.templateId = templateId
             insert(newItem)
-            getTaskList()
+            getItemList()
         }
 
 
@@ -60,42 +61,42 @@ class TemplateViewModel(val databaseDao: TemplateDao, application: Application) 
         }
     }
 
-    fun deleteTask(taskId: Long) {
+    fun deleteItem(itemId: Long) {
         uiScope.launch {
-            delete(taskId)
-            getTaskList()
+            delete(itemId)
+            getItemList()
         }
-        Log.i("TemplateViewModel","Delete $taskId")
+        Log.i("TemplateViewModel","Delete $itemId")
 
-//        _templateTaskList.value = _templateTaskList.value!!.subList(0, taskId) + _templateTaskList.value!!.subList(taskId+1, _templateTaskList.value!!.size)
+//        _templateTaskList.value = _templateTaskList.value!!.subList(0, itemId) + _templateTaskList.value!!.subList(itemId+1, _templateTaskList.value!!.size)
 
     }
 
-    private suspend fun delete(taskId: Long) {
+    private suspend fun delete(itemId: Long) {
         withContext(Dispatchers.IO) {
-            databaseDao.delete(taskId)
+            databaseDao.delete(itemId)
         }
     }
 
-    fun updateTask(taskId: Long, taskTitle: String) {
-        Log.i("TemplateViewModel","update $taskId")
+    fun updateItem(itemId: Long, itemTitle: String) {
+        Log.i("TemplateViewModel","update $itemId")
         uiScope.launch {
-            var task = getTask(taskId)
-            task!!.templateItemTitle = taskTitle
+            var task = getItem(itemId)
+            task!!.templateItemTitle = itemTitle
             update(task)
         }
     }
 
-    private suspend fun getTask(taskId: Long): TemplateItem? {
+    private suspend fun getItem(itemId: Long): TemplateItem? {
         return withContext(Dispatchers.IO) {
-            var task = databaseDao.get(taskId)
+            var task = databaseDao.get(itemId)
             task
         }
     }
 
-    private suspend fun update(task: TemplateItem) {
+    private suspend fun update(item: TemplateItem) {
         withContext(Dispatchers.IO) {
-            databaseDao.update(task)
+            databaseDao.update(item)
         }
     }
 

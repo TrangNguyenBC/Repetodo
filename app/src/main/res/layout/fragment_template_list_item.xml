@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
+    <TextView
         android:id="@+id/templateTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="@string/font_mono"
-        android:text=""
         android:textSize="18sp"
         android:layout_weight="25"
         android:singleLine="true"/>

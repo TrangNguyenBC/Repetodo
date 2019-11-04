@@ -33,11 +33,9 @@ class TemplateFragment : Fragment(), ItemActionListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_template, container, false)
-        Log.i("TemplateFragment", "Open template fragment")
 
-//        binding.addTemplateTaskButton.setOnClickListener{
-//            viewModel.addNewTask("")
-//        }
+        var args = TemplateFragmentArgs.fromBundle(arguments!!)
+        Log.i("TemplateFragment", "xin chao ${args.fragmentId}")
 
         // Database & view model
         val application = requireNotNull(this.activity).application
@@ -45,7 +43,8 @@ class TemplateFragment : Fragment(), ItemActionListener {
         val viewModelFactory =
             TemplateViewModelFactory(
                 dataSource,
-                application
+                application,
+                args.fragmentId
             )
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(TemplateViewModel::class.java)
 
@@ -101,11 +100,11 @@ class TemplateFragment : Fragment(), ItemActionListener {
     }
 
     override fun onItemDelete(id: Long) {
-        viewModel.deleteTask(id)
+        viewModel.deleteItem(id)
     }
 
     override fun onItemUpdate(id: Long, title: String) {
-        viewModel.updateTask(id, title)
+        viewModel.updateItem(id, title)
         hideSoftKeyboard()
     }
 

@@ -14,6 +14,7 @@ import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
 import android.view.*
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
@@ -103,9 +104,9 @@ class MainListFragment : Fragment(), ItemActionListener {
                 binding.hideButton.text = "Hide completed task"
         })
 
-        binding.insertButton.setOnClickListener {
-            viewModel.insertTemplate()
-        }
+        binding.insertButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainListFragment_to_templateInsertFragment))
+
+
 
         return binding.root
     }

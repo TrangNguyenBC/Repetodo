@@ -70,6 +70,9 @@ class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionList
         })
     }
 
+    fun getIdFromPosition(position: Int): Long {
+        return myDataset[position].templateId
+    }
     fun removeItem(position: Int) {
         itemActionListener.onItemDelete(myDataset[position].templateId)
     }

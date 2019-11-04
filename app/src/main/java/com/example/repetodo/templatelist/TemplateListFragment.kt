@@ -103,7 +103,9 @@ class TemplateListFragment : Fragment(), ItemActionListener {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
                 Log.i("TemplateListFragment", "navigate to template fragment")
-                view!!.findNavController().navigate(R.id.action_templateListFragment_to_templateFragment)
+                var templateId = viewAdapter.getIdFromPosition(viewHolder.adapterPosition)
+                view!!.findNavController().navigate(TemplateListFragmentDirections.actionTemplateListFragmentToTemplateFragment(templateId))
+
 
                 //viewAdapter.navigateToTemplateFragment(viewHolder.adapterPosition)
             }
