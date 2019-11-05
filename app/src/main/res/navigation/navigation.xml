@@ -32,5 +32,9 @@
     <fragment
         android:id="@+id/templateInsertFragment"
         android:name="com.example.repetodo.templateinsert.TemplateInsertFragment"
-        android:label="TemplateInsertFragment" />
+        android:label="TemplateInsertFragment" >
+        <action
+            android:id="@+id/action_templateInsertFragment_to_mainListFragment"
+            app:destination="@id/mainListFragment" />
+    </fragment>
 </navigation>

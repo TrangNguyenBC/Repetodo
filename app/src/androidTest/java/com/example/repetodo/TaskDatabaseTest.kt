@@ -28,7 +28,7 @@ class TaskDatabaseTest {
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        // Using an in-memory databaseDao because the information stored here disappears when the
+        // Using an in-memory templateListDao because the information stored here disappears when the
         // process is killed.
         db = Room.inMemoryDatabaseBuilder(context, TaskDatabase::class.java)
             // Allowing main thread queries, just for testing.

@@ -6,17 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 /**
- * A databaseDao that stores TaskInformation information.
- * And a global method to get access to the databaseDao.
+ * A templateListDao that stores TaskInformation information.
+ * And a global method to get access to the templateListDao.
  *
- * This pattern is pretty much the same for any databaseDao,
+ * This pattern is pretty much the same for any templateListDao,
  * so you can reuse it.
  */
 @Database(entities = [TaskInformation::class, TemplateItem::class, Template::class], version = 3, exportSchema = false)
 abstract class TaskDatabase : RoomDatabase() {
 
     /**
-     * Connects the databaseDao to the DAO.
+     * Connects the templateListDao to the DAO.
      */
     abstract val taskListDao: TaskListDao
     abstract val templateDao: TemplateDao
@@ -30,9 +30,9 @@ abstract class TaskDatabase : RoomDatabase() {
      */
     companion object {
         /**
-         * INSTANCE will keep a reference to any databaseDao returned via getInstance.
+         * INSTANCE will keep a reference to any templateListDao returned via getInstance.
          *
-         * This will help us avoid repeatedly initializing the databaseDao, which is expensive.
+         * This will help us avoid repeatedly initializing the templateListDao, which is expensive.
          *
          *  The value of a volatile variable will never be cached, and all writes and
          *  reads will be done to and from the main memory. It means that changes made by one
@@ -42,12 +42,12 @@ abstract class TaskDatabase : RoomDatabase() {
         private var INSTANCE: TaskDatabase? = null
 
         /**
-         * Helper function to get the databaseDao.
+         * Helper function to get the templateListDao.
          *
-         * If a databaseDao has already been retrieved, the previous databaseDao will be returned.
-         * Otherwise, create a new databaseDao.
+         * If a templateListDao has already been retrieved, the previous templateListDao will be returned.
+         * Otherwise, create a new templateListDao.
          *
-         * This function is threadsafe, and callers should cache the result for multiple databaseDao
+         * This function is threadsafe, and callers should cache the result for multiple templateListDao
          * calls to avoid overhead.
          *
          * This is an example of a simple Singleton pattern that takes another Singleton as an
@@ -59,14 +59,14 @@ abstract class TaskDatabase : RoomDatabase() {
          * @param context The application context Singleton, used to get access to the filesystem.
          */
         fun getInstance(context: Context): TaskDatabase {
-            // Multiple threads can ask for the databaseDao at the same time, ensure we only initialize
+            // Multiple threads can ask for the templateListDao at the same time, ensure we only initialize
             // it once by using synchronized. Only one thread may enter a synchronized block at a
             // time.
             synchronized(this) {
                 // Copy the current value of INSTANCE to a local variable so Kotlin can smart cast.
                 // Smart cast is only available to local variables.
                 var instance = INSTANCE
-                // If instance is `null` make a new databaseDao instance.
+                // If instance is `null` make a new templateListDao instance.
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
@@ -79,7 +79,7 @@ abstract class TaskDatabase : RoomDatabase() {
                         // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
                         .fallbackToDestructiveMigration()
                         .build()
-                    // Assign INSTANCE to the newly created databaseDao.
+                    // Assign INSTANCE to the newly created templateListDao.
                     INSTANCE = instance
                 }
                 // Return instance; smart cast to be non-null.

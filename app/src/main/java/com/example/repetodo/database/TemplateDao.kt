@@ -71,5 +71,11 @@ interface TemplateDao {
     @Query("SELECT * FROM template_table ORDER BY templateItemId DESC LIMIT 1")
     fun getLastestItem(): TemplateItem?
 
+    /**
+     * Selects and returns a number of latest task.
+     */
+    @Query("SELECT template_item_title FROM template_table WHERE template_id = :templateId ORDER BY templateItemId DESC LIMIT :number")
+    fun getLastestTitles(templateId: Long, number: Int): List<String>
+
 }
 

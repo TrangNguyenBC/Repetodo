@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +19,6 @@ import com.example.repetodo.R
 import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentTemplateListBinding
-import com.example.repetodo.template.TemplateRecyclerAdapter
-import com.example.repetodo.template.TemplateViewModel
-import com.example.repetodo.template.TemplateViewModelFactory
 
 class TemplateListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentTemplateListBinding
@@ -62,7 +58,7 @@ class TemplateListFragment : Fragment(), ItemActionListener {
         binding.templateListRecyclerView.adapter = viewAdapter
 
         // update data set inside the adapter
-        viewModel.templateTaskList.observe(viewLifecycleOwner, Observer {
+        viewModel.templateList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 viewAdapter.myDataset = it
             }

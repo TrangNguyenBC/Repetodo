@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.repetodo.database.*
 import kotlinx.coroutines.*
 
-class TemplateListViewModel(val databaseDao: TemplateListDao, application: Application) : AndroidViewModel(application) {
+class TemplateListViewModel(val templateListDao: TemplateListDao, application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 
@@ -19,9 +19,9 @@ class TemplateListViewModel(val databaseDao: TemplateListDao, application: Appli
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private var _templateTaskList = MutableLiveData<List<Template>> ()
-    val templateTaskList: LiveData<List<Template>>
-        get() = _templateTaskList
+    private var _templateList = MutableLiveData<List<Template>> ()
+    val templateList: LiveData<List<Template>>
+        get() = _templateList
 
     init {
         getTaskList()
@@ -29,14 +29,14 @@ class TemplateListViewModel(val databaseDao: TemplateListDao, application: Appli
 
     private fun getTaskList() {
         uiScope.launch {
-            _templateTaskList.value = getAllItems()
+            _templateList.value = getAllItems()
         }
     }
 
     private suspend fun getAllItems(): List<Template>? {
         return withContext(Dispatchers.IO) {
             lateinit var template: List<Template>
-            template = databaseDao.getAllItems()
+            template = templateListDao.getAllItems()
             template
         }
     }
@@ -51,12 +51,12 @@ class TemplateListViewModel(val databaseDao: TemplateListDao, application: Appli
 
 
         Log.i("TemplateListViewModel", "Add a new template")
-        Log.i("TemplateListViewModel", _templateTaskList.value!!.joinToString())
+        Log.i("TemplateListViewModel", _templateList.value!!.joinToString())
     }
 
     private suspend fun insert(template: Template) {
         withContext(Dispatchers.IO) {
-            databaseDao.insert(template)
+            templateListDao.insert(template)
         }
     }
 
@@ -67,13 +67,13 @@ class TemplateListViewModel(val databaseDao: TemplateListDao, application: Appli
         }
         Log.i("TemplateListViewModel","Delete $templateId")
 
-//        _templateTaskList.value = _templateTaskList.value!!.subList(0, taskId) + _templateTaskList.value!!.subList(taskId+1, _templateTaskList.value!!.size)
+//        _templateList.value = _templateList.value!!.subList(0, taskId) + _templateList.value!!.subList(taskId+1, _templateList.value!!.size)
 
     }
 
     private suspend fun delete(templateId: Long) {
         withContext(Dispatchers.IO) {
-            databaseDao.delete(templateId)
+            templateListDao.delete(templateId)
         }
     }
 
@@ -89,14 +89,14 @@ class TemplateListViewModel(val databaseDao: TemplateListDao, application: Appli
     private suspend fun getTask(templateId: Long): Template?
     {
         return withContext(Dispatchers.IO) {
-            var template = databaseDao.get(templateId)
+            var template = templateListDao.get(templateId)
             template
         }
     }
 
     private suspend fun update(template: Template) {
         withContext(Dispatchers.IO) {
-            databaseDao.update(template)
+            templateListDao.update(template)
         }
     }
 
