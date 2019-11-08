@@ -1,18 +1,18 @@
 package com.example.repetodo.templateinsert
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
-import android.view.KeyEvent
 import com.example.repetodo.Utils.ItemActionListener
-import com.example.repetodo.database.Template
 import kotlinx.android.synthetic.main.fragment_template_list_insert_item.view.*
 
-class TemplateInsertRecyclerAdapter(private var itemActionListener: ItemActionListener):
-    RecyclerView.Adapter<TemplateInsertRecyclerAdapter.MyViewHolder>() {
+class TplInsertRecAdapter(private var itemActionListener: ItemActionListener):
+    RecyclerView.Adapter<TplInsertRecAdapter.MyViewHolder>() {
     var myDataset = listOf<TemplateInsert>()
         set(value) {
             field = value
@@ -45,30 +45,11 @@ class TemplateInsertRecyclerAdapter(private var itemActionListener: ItemActionLi
         holder.view.templateInsertTitle.text = myDataset[position].templateTitle
         holder.view.templateInsertInfo.text = myDataset[position].templateBrief
 
-//        holder.view.templateInsertTitle.apply {
-//            // show the task title
-//            setText(myDataset[position].templateTitle)
-//            // focus cursor to the end of task title
-//            setSelection(myDataset[position].templateTitle.length)
-//        }
-
-//        holder.view.templateInsertTitle.setOnFocusChangeListener { _, hasFocus ->
-//            if (!hasFocus) {
-//                var newTitle = holder.view.templateItemTitle.text.toString()
-//                itemActionListener.onItemUpdate(id, newTitle)
-//            }
-//        }
-//
-//        holder.view.templateItemTitle.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-//            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-//                Log.i("TemplateRecyclerAdapter", "Heard an Enter Key")
-//                var newTitle = holder.view.templateItemTitle.text.toString()
-//                itemActionListener.onItemUpdate(id, newTitle)
-//                //Perform Code
-//                itemActionListener.hideSoftKeyboard()
-//            }
-//            false
-//        })
+        holder.view.setOnClickListener{view ->
+            Log.i("TplInsertRecAdapter", "click the template $id")
+            itemActionListener.onInsertTemplate(id)
+            view.findNavController().navigate(R.id.action_templateInsertFragment_to_mainListFragment)
+        }
     }
 
     fun getIdFromPosition(position: Int): Long {

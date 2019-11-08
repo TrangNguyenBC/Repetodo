@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
+import com.example.repetodo.template.TemplateFragmentArgs
 
 class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
@@ -46,7 +47,6 @@ class MainListFragment : Fragment(), ItemActionListener {
 
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
-
 
 
         viewManager = LinearLayoutManager(this.context)
@@ -138,5 +138,9 @@ class MainListFragment : Fragment(), ItemActionListener {
     override fun hideSoftKeyboard() {
         val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
+    }
+
+    override fun onInsertTemplate(id: Long) {
+        //do nothing
     }
 }

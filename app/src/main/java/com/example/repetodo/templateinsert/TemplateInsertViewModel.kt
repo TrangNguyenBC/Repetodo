@@ -5,13 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.repetodo.database.Template
-import com.example.repetodo.database.TemplateDao
-import com.example.repetodo.database.TemplateItem
-import com.example.repetodo.database.TemplateListDao
+import com.example.repetodo.database.*
 import kotlinx.coroutines.*
 
-class TemplateInsertViewModel(val templateListDao: TemplateListDao, val templateDao: TemplateDao, application: Application) : AndroidViewModel(application) {
+class TemplateInsertViewModel(val templateListDao: TemplateListDao, val templateDao: TemplateDao, val taskListDao: TaskListDao,
+                              application: Application) : AndroidViewModel(application) {
     private var viewModelJob = Job()
 
     override fun onCleared() {
@@ -68,6 +66,31 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
         return withContext(Dispatchers.IO) {
             var result = templateDao.getLastestTitles(templateId, number)
             result
+        }
+    }
+
+    fun insertFromTemplate(templateId: Long) {
+        uiScope.launch {
+            var templateItems = getAllTemplateItems(templateId)
+            for (anItem in templateItems) {
+                var task = TaskInformation()
+                task.taskStatus = 0
+                task.taskTitle = anItem.templateItemTitle
+                insertItem(task)
+            }
+        }
+    }
+
+    private suspend fun getAllTemplateItems(templateId: Long): List<TemplateItem> {
+        return withContext(Dispatchers.IO) {
+            var result = templateDao.getItemWithTemplate(templateId)
+            result
+        }
+    }
+
+    private suspend fun insertItem(task: TaskInformation) {
+        withContext(Dispatchers.IO) {
+            taskListDao.insert(task)
         }
     }
 

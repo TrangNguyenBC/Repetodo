@@ -5,4 +5,5 @@ interface ItemActionListener {
     fun onItemUpdate(id: Long, title: String)
     fun onItemCheckUpdate(id: Long, checked: Boolean)
     fun hideSoftKeyboard()
+    fun onInsertTemplate(id: Long)
 }
