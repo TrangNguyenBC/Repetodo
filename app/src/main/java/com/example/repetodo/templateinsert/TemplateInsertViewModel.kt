@@ -18,12 +18,6 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
     }
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-//    private var _templateList = MutableLiveData<List<Template>> ()
-//    val templateList: LiveData<List<Template>>
-//        get() = _templateList
-
-    // lateinit var _templateBriefInfo : List<String>
     private var templatesList : List<Template> = listOf ()
 
     private var _templateInsertList = MutableLiveData<List<TemplateInsert>> ()
@@ -31,7 +25,12 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
         get() = _templateInsertList
 
 
+    private var _finishInsertion = MutableLiveData<Boolean> ()
+    val finishInsertion: LiveData<Boolean>
+        get() = _finishInsertion
+
     init {
+        _finishInsertion.value = false
         _templateInsertList.value = listOf<TemplateInsert>()
         getTemplateList()
 
@@ -50,7 +49,7 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
                 Log.i("TemplateInsertViewModel", "this is a template brief: $templateBrief")
                 _templateInsertList.value = _templateInsertList.value!!.plus(aTemplate)
             }
-            Log.i("TemplateInsertViewModel", "hello ${_templateInsertList.value!!.joinToString()}")
+            Log.i("TemplateInsertViewModel", "Initiate the TemplateInsertViewModel ${_templateInsertList.value!!.joinToString()}")
         }
     }
 
@@ -71,7 +70,8 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
 
     fun insertFromTemplate(templateId: Long) {
         uiScope.launch {
-            var templateItems = getAllTemplateItems(templateId)
+            Log.i("TemplateInsertViewModel", "finishInsertion: ${finishInsertion.value}")
+                var templateItems = getAllTemplateItems(templateId)
             var itemList: MutableList<TaskInformation> = mutableListOf()
             for (anItem in templateItems) {
                 var task = TaskInformation()
@@ -82,9 +82,13 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
             val taskList = itemList.toList()
             insertAllItem(taskList)
 
-            var result = getAllTask()
-            Log.i("TemplateInsertViewModel", "The database after insert is")
-            Log.i("TemplateInsertViewModel", result.joinToString())
+            var newList = getAllTask()
+            Log.i("TemplateInsertViewModel", "Finish insertion ${newList!!.joinToString()}")
+
+            // after insertion
+            _finishInsertion.value = true
+            Log.i("TemplateInsertViewModel", "finishInsertion: ${finishInsertion.value}")
+
         }
     }
 

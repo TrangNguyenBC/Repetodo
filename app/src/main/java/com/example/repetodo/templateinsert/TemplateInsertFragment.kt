@@ -1,6 +1,7 @@
 package com.example.repetodo.templateinsert
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -52,7 +53,6 @@ class TemplateInsertFragment : Fragment(), ItemActionListener {
         binding.setLifecycleOwner(this)
 
 
-
         viewManager = LinearLayoutManager(this.context)
         var viewAdapter = TplInsertRecAdapter(this)
         binding.templateListInsertRecyclerView.adapter = viewAdapter
@@ -99,8 +99,15 @@ class TemplateInsertFragment : Fragment(), ItemActionListener {
     }
 
     override fun onInsertTemplate(id: Long) {
+        binding.templateListInsertRecyclerView.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         viewModel.insertFromTemplate(id)
-        Navigation.createNavigateOnClickListener(R.id.action_templateInsertFragment_to_mainListFragment)
-        Log.i("TemplateInsertFragment", "Navigate from TemplateInsert to Mainlist")
+        viewModel.finishInsertion.observe(viewLifecycleOwner, Observer {
+            if (viewModel.finishInsertion.value!!) {
+                Navigation.createNavigateOnClickListener(R.id.action_templateInsertFragment_to_mainListFragment)
+                Log.i("TemplateInsertFragment", "Navigate from TemplateInsert to Mainlist")
+            }
+
+        })
     }
 }

@@ -36,7 +36,7 @@ class MainListFragment : Fragment(), ItemActionListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
         setHasOptionsMenu(true)
-        Log.i("MainListFragment", "OnCreateView is called")
+        Log.i("MainListFragment", "MainListOnCreateView is called")
 
         // Database & view model
         val application = requireNotNull(this.activity).application
@@ -112,7 +112,6 @@ class MainListFragment : Fragment(), ItemActionListener {
             view!!.findNavController().navigate(R.id.action_mainListFragment_to_templateInsertFragment)
             Log.i("MainListFragment", "Navigate from Main List to TemplateInsert")
         }
-
 
 
         return binding.root

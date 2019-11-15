@@ -31,7 +31,7 @@ class MainListViewModel(val database: TaskListDao, application: Application) : A
     init {
         _hideCompletedTasks.value = true
         getTaskList()
-        Log.i("MainListViewModel", "hello")
+        Log.i("MainListViewModel", "Initiate MainListViewModel")
     }
 
     private fun getTaskList() {

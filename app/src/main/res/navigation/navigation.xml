@@ -12,9 +12,6 @@
         <action
             android:id="@+id/action_mainListFragment_to_templateInsertFragment"
             app:destination="@id/templateInsertFragment" />
-        <argument
-            android:name="afterInsert"
-            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/templateListFragment"
