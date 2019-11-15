@@ -10,6 +10,7 @@ import com.example.repetodo.database.TaskInformation
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 import android.view.KeyEvent
 import com.example.repetodo.Utils.ItemActionListener
+import timber.log.Timber
 
 class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
@@ -29,7 +30,7 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MyViewHolder {
-        Log.i("MainTaskRecyclerAdapter", "onCreateViewHolder is called")
+        //Log.i("MainTaskRecyclerAdapter", "onCreateViewHolder is called")
         // create a new view
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_task_item, parent, false) as View
@@ -43,7 +44,7 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
         var id = myDataset[position].taskId
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
+        //Log.i("MainTaskRecyclerAdapter", "bind view holder is working with position $position")
 
         holder.view.taskTitle.apply {
             // show the task title
@@ -57,13 +58,13 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
 
         holder.view.checkBox.setOnClickListener {
             itemActionListener.onItemCheckUpdate(id, holder.view.checkBox.isChecked)
-            Log.i("MainTaskRecyclerAdapter", "Check box $position is clicked")
+            //Log.i("MainTaskRecyclerAdapter", "Check box $position is clicked")
         }
 
         holder.view.taskTitle.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 var newTitle = holder.view.taskTitle.text.toString()
-                Log.i("MainTaskRecyclerAdapter", "Item $id should be updated to $newTitle")
+                //Log.i("MainTaskRecyclerAdapter", "Item $id should be updated to $newTitle")
                 itemActionListener.onItemUpdate(id, newTitle)
             }
         }
@@ -71,7 +72,7 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
         holder.view.taskTitle.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 var newTitle = holder.view.taskTitle.text.toString()
-                Log.i("MainTaskRecyclerAdapter", "Item $id should be updated to $newTitle")
+                //Log.i("MainTaskRecyclerAdapter", "Item $id should be updated to $newTitle")
                 itemActionListener.onItemUpdate(id, newTitle)
                 //Perform Code
                 itemActionListener.hideSoftKeyboard()

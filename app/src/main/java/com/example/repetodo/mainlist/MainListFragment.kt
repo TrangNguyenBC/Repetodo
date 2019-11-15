@@ -13,12 +13,14 @@ import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
+import android.util.Log
 import android.view.*
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.template.TemplateFragmentArgs
+import timber.log.Timber
 
 class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
@@ -34,6 +36,7 @@ class MainListFragment : Fragment(), ItemActionListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
         setHasOptionsMenu(true)
+        Log.i("MainListFragment", "OnCreateView is called")
 
         // Database & view model
         val application = requireNotNull(this.activity).application
@@ -104,7 +107,11 @@ class MainListFragment : Fragment(), ItemActionListener {
                 binding.hideButton.text = "Hide completed task"
         })
 
-        binding.insertButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainListFragment_to_templateInsertFragment))
+        binding.insertButton.setOnClickListener{
+            //Navigation.createNavigateOnClickListener(R.id.action_mainListFragment_to_templateInsertFragment)
+            view!!.findNavController().navigate(R.id.action_mainListFragment_to_templateInsertFragment)
+            Log.i("MainListFragment", "Navigate from Main List to TemplateInsert")
+        }
 
 
 

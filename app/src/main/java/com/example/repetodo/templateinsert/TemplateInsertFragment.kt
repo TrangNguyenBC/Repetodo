@@ -2,6 +2,7 @@ package com.example.repetodo.templateinsert
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.example.repetodo.R
 import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentTemplateListInsertBinding
+import timber.log.Timber
 
 class TemplateInsertFragment : Fragment(), ItemActionListener {
 
@@ -99,5 +101,6 @@ class TemplateInsertFragment : Fragment(), ItemActionListener {
     override fun onInsertTemplate(id: Long) {
         viewModel.insertFromTemplate(id)
         Navigation.createNavigateOnClickListener(R.id.action_templateInsertFragment_to_mainListFragment)
+        Log.i("TemplateInsertFragment", "Navigate from TemplateInsert to Mainlist")
     }
 }

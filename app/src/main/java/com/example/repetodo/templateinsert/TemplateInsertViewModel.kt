@@ -72,12 +72,26 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
     fun insertFromTemplate(templateId: Long) {
         uiScope.launch {
             var templateItems = getAllTemplateItems(templateId)
+            var itemList: MutableList<TaskInformation> = mutableListOf()
             for (anItem in templateItems) {
                 var task = TaskInformation()
                 task.taskStatus = 0
                 task.taskTitle = anItem.templateItemTitle
-                insertItem(task)
+                itemList.add(task)
             }
+            val taskList = itemList.toList()
+            insertAllItem(taskList)
+
+            var result = getAllTask()
+            Log.i("TemplateInsertViewModel", "The database after insert is")
+            Log.i("TemplateInsertViewModel", result.joinToString())
+        }
+    }
+
+    private suspend fun getAllTask(): List<TaskInformation> {
+        return withContext(Dispatchers.IO) {
+            var result = taskListDao.getAllTasks()
+            result
         }
     }
 
@@ -88,9 +102,9 @@ class TemplateInsertViewModel(val templateListDao: TemplateListDao, val template
         }
     }
 
-    private suspend fun insertItem(task: TaskInformation) {
+    private suspend fun insertAllItem(taskList: List<TaskInformation>) {
         withContext(Dispatchers.IO) {
-            taskListDao.insert(task)
+            taskListDao.insertAll(*taskList.toTypedArray())
         }
     }
 

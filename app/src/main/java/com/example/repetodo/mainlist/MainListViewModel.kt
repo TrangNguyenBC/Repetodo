@@ -31,11 +31,13 @@ class MainListViewModel(val database: TaskListDao, application: Application) : A
     init {
         _hideCompletedTasks.value = true
         getTaskList()
+        Log.i("MainListViewModel", "hello")
     }
 
     private fun getTaskList() {
         uiScope.launch {
             _taskList.value = getAllTasks()
+            Log.i("MainListViewModel", _taskList.value!!.joinToString())
         }
     }
 

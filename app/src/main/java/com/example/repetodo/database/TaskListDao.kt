@@ -1,9 +1,6 @@
 package com.example.repetodo.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 /**
  * Defines methods for using the TaskInformation class with Room.
@@ -13,6 +10,9 @@ interface TaskListDao {
 
     @Insert
     fun insert(task: TaskInformation)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg task: TaskInformation)
 
     /**
      * When updating a row with a value already set in a column,
