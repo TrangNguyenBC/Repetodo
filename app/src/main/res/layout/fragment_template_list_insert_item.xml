@@ -15,7 +15,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="25"
-        android:fontFamily="@string/font_mono"
         android:textSize="22sp" />
 
     <TextView
