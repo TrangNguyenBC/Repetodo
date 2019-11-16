@@ -91,7 +91,8 @@ class MainListFragment : Fragment(), ItemActionListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         // add a new task
-        binding.addButton.setOnClickListener{
+        // binding.addButton.setOnClickListener{
+        binding.addFloatButton.setOnClickListener {
             viewModel.addNewTask("")
         }
 

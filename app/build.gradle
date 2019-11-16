@@ -59,5 +59,8 @@ dependencies {
 
     // Timber
     implementation 'com.github.ajalt:timberkt:1.5.1'
+
+    // Material Design
+    implementation "com.google.android.material:material:$version_material"
 }
 
