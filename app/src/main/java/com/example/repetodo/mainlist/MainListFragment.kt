@@ -108,12 +108,6 @@ class MainListFragment : Fragment(), ItemActionListener {
                 binding.hideButton.text = "Hide completed task"
         })
 
-        binding.insertButton.setOnClickListener{
-            //Navigation.createNavigateOnClickListener(R.id.action_mainListFragment_to_templateInsertFragment)
-            view!!.findNavController().navigate(R.id.action_mainListFragment_to_templateInsertFragment)
-            Log.i("MainListFragment", "Navigate from Main List to TemplateInsert")
-        }
-
 
         return binding.root
     }
