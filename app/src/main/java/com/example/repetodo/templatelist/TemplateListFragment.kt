@@ -111,7 +111,7 @@ class TemplateListFragment : Fragment(), ItemActionListener {
         itemTouchHelperForDetailed.attachToRecyclerView(recyclerView)
 
         // add a new task
-        binding.addTemplateButton.setOnClickListener{
+        binding.addFloatButtonTplList.setOnClickListener{
             viewModel.addNewTemplate("")
         }
 
