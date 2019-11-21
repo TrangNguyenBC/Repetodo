@@ -15,12 +15,11 @@ import android.view.inputmethod.InputMethodManager
 import android.content.Context;
 import android.util.Log
 import android.view.*
-import androidx.navigation.Navigation
+import androidx.appcompat.widget.PopupMenu
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
-import com.example.repetodo.template.TemplateFragmentArgs
-import timber.log.Timber
+import com.example.repetodo.Utils.TasksFilterType
 
 class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
@@ -96,18 +95,6 @@ class MainListFragment : Fragment(), ItemActionListener {
             viewModel.addNewTask("")
         }
 
-        // show/hide completed task setting
-        binding.hideButton.setOnClickListener{
-            viewModel.changeHideSetting()
-        }
-
-        viewModel.hideCompletedTasks.observe(viewLifecycleOwner, Observer {value ->
-            if (value)
-                binding.hideButton.text = "Show completed task"
-            else
-                binding.hideButton.text = "Hide completed task"
-        })
-
 
         return binding.root
     }
@@ -117,11 +104,41 @@ class MainListFragment : Fragment(), ItemActionListener {
         inflater.inflate(R.menu.overflow_menu, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item,
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.filter_tasks -> {
+            showFilteringPopUpMenu()
+            true
+        }
+
+        else -> {
+            NavigationUI.onNavDestinationSelected(item,
             view!!.findNavController())
                 ||super.onOptionsItemSelected(item)
+        }
     }
+
+    private fun showFilteringPopUpMenu() {
+        val view = activity?.findViewById<View>(R.id.filter_tasks) ?: return
+        PopupMenu(requireContext(), view).run {
+            menuInflater.inflate(R.menu.filter_task_menu, menu)
+
+            setOnMenuItemClickListener {
+                binding.viewModel?.run {
+                    changeFilterSetting(
+                        when (it.itemId) {
+                            R.id.active -> TasksFilterType.ACTIVE_TASKS
+                            R.id.completed -> TasksFilterType.COMPLETED_TASKS
+                            else -> TasksFilterType.ALL_TASKS
+                        }
+                    )
+                }
+                true
+            }
+            show()
+        }
+    }
+
 
     override fun onItemDelete(id: Long) {
         viewModel.deleteTask(id)

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/filter_tasks"
+        android:icon="@drawable/ic_filter_tasks"
+        android:title="@string/taskMenuFilterTasksText"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/templateListFragment"
-        android:title="@string/templateMenuItemText" />
+        android:title="@string/taskMenuTemplateListText" />
 
     <item
         android:id="@+id/templateInsertFragment"
-        android:title="@string/templateInsertText" />
+        android:title="@string/taskMenuTemplateInsertText" />
 </menu>

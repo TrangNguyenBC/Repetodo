@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.repetodo.Utils.TasksFilterType
 import com.example.repetodo.database.TaskListDao
 import com.example.repetodo.database.TaskInformation
 import kotlinx.coroutines.*
@@ -20,16 +21,16 @@ class MainListViewModel(val database: TaskListDao, application: Application) : A
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private var _hideCompletedTasks = MutableLiveData<Boolean> ()
-    val hideCompletedTasks: LiveData<Boolean>
-        get() = _hideCompletedTasks
+    private var _taskFilterStatus = MutableLiveData<TasksFilterType> ()
+    val taskFilterStatus: LiveData<TasksFilterType>
+        get() = _taskFilterStatus
 
     private var _taskList = MutableLiveData<List<TaskInformation>> ()
     val taskList: LiveData<List<TaskInformation>>
         get() = _taskList
 
     init {
-        _hideCompletedTasks.value = true
+        _taskFilterStatus.value = TasksFilterType.ACTIVE_TASKS
         getTaskList()
         Log.i("MainListViewModel", "Initiate MainListViewModel")
     }
@@ -44,10 +45,12 @@ class MainListViewModel(val database: TaskListDao, application: Application) : A
     private suspend fun getAllTasks(): List<TaskInformation>? {
         return withContext(Dispatchers.IO) {
             lateinit var task: List<TaskInformation>
-            if (_hideCompletedTasks.value!!)
-                task = database.getTasksWithStatus(0)
-            else
-                task = database.getAllTasks()
+            task = when (_taskFilterStatus.value!!) {
+                TasksFilterType.ALL_TASKS -> database.getAllTasks()
+                TasksFilterType.ACTIVE_TASKS -> database.getTasksWithStatus(0)
+                TasksFilterType.COMPLETED_TASKS -> database.getTasksWithStatus(1)
+                // TODO: else ->
+            }
 
             task
         }
@@ -121,17 +124,9 @@ class MainListViewModel(val database: TaskListDao, application: Application) : A
         }
     }
 
-    fun changeHideSetting() {
-        _hideCompletedTasks.value = !_hideCompletedTasks.value!!
+    fun changeFilterSetting(status: TasksFilterType) {
+        _taskFilterStatus.value = status
         getTaskList()
-    }
-
-    fun insertTemplate() {
-        Log.i("MainListViewModel","Insert a list of task information")
-        var taskString = listOf<String>("task 1", "task 2", "task 3")
-        for (task in taskString) {
-            addNewTask(task)
-        }
     }
 
 }

@@ -7,8 +7,11 @@
     <string name="show_button_text">Show completed task</string>
     <string name="hide_button_text">Hide completed task</string>
     <string name="insert_button_text">Insert</string>
-    <string name="templateMenuItemText">Templates list</string>
-    <string name="templateInsertText">Insert from templates</string>
+    <string name="taskMenuTemplateListText">Templates list</string>
+    <string name="taskMenuTemplateInsertText">Insert from templates</string>
+    <string name="taskMenuFilterTasksText">Filter active tasks</string>
+    <string name="taskMenuAllTasksText">Show all tasks</string>
+
 
 
 </resources>
