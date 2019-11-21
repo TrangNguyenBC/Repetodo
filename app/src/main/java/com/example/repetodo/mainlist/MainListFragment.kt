@@ -14,6 +14,7 @@ import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
@@ -21,6 +22,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.Utils.TasksFilterType
+import com.google.android.material.snackbar.Snackbar
 
 class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentMainListBinding
@@ -115,22 +117,17 @@ class MainListFragment : Fragment(), ItemActionListener {
     private fun getCurrentFilterOption() : TasksFilterType {
         sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)!!
         val currentFilterString = sharedPreferences.getString(preferenceName, null)
-        Log.i("MainListFragment", "the preferenceName is $preferenceName")
-        Log.i("MainListFragment", "the initial filter string is $currentFilterString")
-        val currentFilter = when (currentFilterString) {
+        return when (currentFilterString) {
             TasksFilterType.COMPLETED_TASKS.name -> TasksFilterType.COMPLETED_TASKS
             TasksFilterType.ALL_TASKS.name -> TasksFilterType.ALL_TASKS
             else -> TasksFilterType.ACTIVE_TASKS
         }
-        Log.i("MainListFragment", "the initial filter is ${currentFilter.name}")
-        return currentFilter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.overflow_menu, menu)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.filter_tasks -> {
@@ -173,6 +170,10 @@ class MainListFragment : Fragment(), ItemActionListener {
 
     override fun onItemDelete(id: Long) {
         viewModel.deleteTask(id)
+        // show the informed text and Undo
+        val snackbar = Snackbar.make(view!!, R.string.removeInformText, Snackbar.LENGTH_SHORT)
+        snackbar.view.setBackgroundColor(Color.parseColor("#008200"))
+        snackbar.show()
     }
 
     override fun onItemUpdate(id: Long, title: String) {

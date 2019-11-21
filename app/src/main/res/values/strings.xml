@@ -11,6 +11,8 @@
     <string name="taskMenuTemplateInsertText">Insert from templates</string>
     <string name="taskMenuFilterTasksText">Filter active tasks</string>
     <string name="taskMenuAllTasksText">Show all tasks</string>
+    <string name="removeInformText">1 item removed</string>
+    <string name="undo_text">UNDO</string>
 
 
 
