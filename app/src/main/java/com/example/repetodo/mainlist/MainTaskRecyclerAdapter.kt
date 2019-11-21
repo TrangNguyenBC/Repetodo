@@ -74,8 +74,6 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
                 var newTitle = holder.view.taskTitle.text.toString()
                 //Log.i("MainTaskRecyclerAdapter", "Item $id should be updated to $newTitle")
                 itemActionListener.onItemUpdate(id, newTitle)
-                //Perform Code
-                itemActionListener.hideSoftKeyboard()
             }
             false
         })

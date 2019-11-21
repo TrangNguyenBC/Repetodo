@@ -1,6 +1,7 @@
 package com.example.repetodo.template
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentTemplateBinding
 import com.example.repetodo.mainlist.MainListViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 
 class TemplateFragment : Fragment(), ItemActionListener {
     private lateinit var binding: FragmentTemplateBinding
@@ -83,8 +85,41 @@ class TemplateFragment : Fragment(), ItemActionListener {
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
+//                viewAdapter.removeItem(viewHolder.adapterPosition)
+//
+//            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Log.i("TemplateFragment", "Direction is $direction")
                 viewAdapter.removeItem(viewHolder.adapterPosition)
+                if (direction == ItemTouchHelper.RIGHT) {
+                    Log.i("TemplateFragment", "Show taskbar")
+                    // showing snack bar with Undo option
+                    val snackbar = Snackbar.make(view!!, "The item was deleted",Snackbar.LENGTH_SHORT)
+//                    snackbar.setAction("UNDO") {
+//                        // undo is selected, restore the deleted item
+//                        adapter!!.restoreItem(deletedModel, position)
+//                    }
+//                    snackbar.setActionTextColor(Color.YELLOW)
+                    snackbar.show()
+                }
+//                } else {
+//                    val deletedModel = imageModelArrayList!![position]
+//                    adapter!!.removeItem(position)
+//                    // showing snack bar with Undo option
+//                    val snackbar = Snackbar.make(
+//                        window.decorView.rootView,
+//                        " removed from Recyclerview!",
+//                        Snackbar.LENGTH_LONG
+//                    )
+//                    snackbar.setAction("UNDO") {
+//                        // undo is selected, restore the deleted item
+//                        adapter!!.restoreItem(deletedModel, position)
+//                    }
+//                    snackbar.setActionTextColor(Color.YELLOW)
+//                    snackbar.show()
+//                }
             }
         }
 
@@ -92,7 +127,7 @@ class TemplateFragment : Fragment(), ItemActionListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         // add a new task
-        binding.addTemplateItemButton.setOnClickListener{
+        binding.addFloatButtonTpl.setOnClickListener{
             viewModel.addNewTask("")
         }
 
@@ -105,19 +140,6 @@ class TemplateFragment : Fragment(), ItemActionListener {
 
     override fun onItemUpdate(id: Long, title: String) {
         viewModel.updateItem(id, title)
-        hideSoftKeyboard()
-    }
-
-    override fun onItemCheckUpdate(id: Long, checked: Boolean) {
-        // do nothing
-    }
-
-    override fun hideSoftKeyboard() {
-        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
-    }
-
-    override fun onInsertTemplate(id: Long) {
-        //do nothing
+        hideSoftKeyboard(activity!!, view!!)
     }
 }

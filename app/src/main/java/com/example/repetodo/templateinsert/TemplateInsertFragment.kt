@@ -1,13 +1,10 @@
 package com.example.repetodo.templateinsert
 
-import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,7 +16,6 @@ import com.example.repetodo.R
 import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentTemplateListInsertBinding
-import timber.log.Timber
 
 class TemplateInsertFragment : Fragment(), ItemActionListener {
 
@@ -80,24 +76,6 @@ class TemplateInsertFragment : Fragment(), ItemActionListener {
         return binding.root
     }
 
-    override fun onItemDelete(id: Long) {
-        // do nothing
-    }
-
-    override fun onItemUpdate(id: Long, title: String) {
-        // do nothing
-        hideSoftKeyboard()
-    }
-
-    override fun onItemCheckUpdate(id: Long, checked: Boolean) {
-        // do nothing
-    }
-
-    override fun hideSoftKeyboard() {
-        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
-    }
-
     override fun onInsertTemplate(id: Long) {
         binding.templateListInsertRecyclerView.visibility = View.INVISIBLE
         binding.progressBar.visibility = View.VISIBLE
@@ -107,7 +85,6 @@ class TemplateInsertFragment : Fragment(), ItemActionListener {
                 Navigation.createNavigateOnClickListener(R.id.action_templateInsertFragment_to_mainListFragment)
                 Log.i("TemplateInsertFragment", "Navigate from TemplateInsert to Mainlist")
             }
-
         })
     }
 }

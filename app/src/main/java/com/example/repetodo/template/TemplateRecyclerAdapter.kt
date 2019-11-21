@@ -62,8 +62,6 @@ class TemplateRecyclerAdapter(private var itemActionListener: ItemActionListener
                 Log.i("TemplateRecyclerAdapter", "Heard an Enter Key")
                 var newTitle = holder.view.templateItemTitle.text.toString()
                 itemActionListener.onItemUpdate(id, newTitle)
-                //Perform Code
-                itemActionListener.hideSoftKeyboard()
             }
             false
         })

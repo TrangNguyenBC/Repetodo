@@ -146,19 +146,10 @@ class MainListFragment : Fragment(), ItemActionListener {
 
     override fun onItemUpdate(id: Long, title: String) {
         viewModel.updateTask(id, title)
-        hideSoftKeyboard()
+        hideSoftKeyboard(activity!!, view!!)
     }
 
     override fun onItemCheckUpdate(id: Long, checked: Boolean) {
         viewModel.updateTaskStatus(id, checked)
-    }
-
-    override fun hideSoftKeyboard() {
-        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
-    }
-
-    override fun onInsertTemplate(id: Long) {
-        //do nothing
     }
 }
