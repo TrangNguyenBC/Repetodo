@@ -10,7 +10,7 @@ import com.example.repetodo.database.TaskListDao
 import com.example.repetodo.database.TaskInformation
 import kotlinx.coroutines.*
 
-class MainListViewModel(val database: TaskListDao, application: Application) : AndroidViewModel(application) {
+class MainListViewModel(val database: TaskListDao, application: Application, currentFilter: TasksFilterType) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 
@@ -30,7 +30,7 @@ class MainListViewModel(val database: TaskListDao, application: Application) : A
         get() = _taskList
 
     init {
-        _taskFilterStatus.value = TasksFilterType.ACTIVE_TASKS
+        _taskFilterStatus.value = currentFilter
         getTaskList()
         Log.i("MainListViewModel", "Initiate MainListViewModel")
     }

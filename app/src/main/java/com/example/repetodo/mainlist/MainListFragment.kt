@@ -13,6 +13,7 @@ import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
@@ -26,6 +27,8 @@ class MainListFragment : Fragment(), ItemActionListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewModel: MainListViewModel
+    private lateinit var sharedPreferences: SharedPreferences
+    val preferenceName = "FilterType"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,15 +38,19 @@ class MainListFragment : Fragment(), ItemActionListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_list, container, false)
         setHasOptionsMenu(true)
-        Log.i("MainListFragment", "MainListOnCreateView is called")
+
+        // get the sharedPreference
+        val currentFilter = getCurrentFilterOption()
 
         // Database & view model
         val application = requireNotNull(this.activity).application
         val dataSource = TaskDatabase.getInstance(application).taskListDao
+
         val viewModelFactory =
             MainListViewModelFactory(
                 dataSource,
-                application
+                application,
+                currentFilter
             )
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainListViewModel::class.java)
 
@@ -51,16 +58,10 @@ class MainListFragment : Fragment(), ItemActionListener {
         binding.setLifecycleOwner(this)
 
 
+        // RecyclerView - layout manager & adapter
         viewManager = LinearLayoutManager(this.context)
         var viewAdapter = MainTaskRecyclerAdapter(this)
         binding.taskRecyclerView.adapter = viewAdapter
-
-        // update data set inside the adapter
-        viewModel.taskList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                viewAdapter.myDataset = it
-            }
-        })
 
         recyclerView = binding.taskRecyclerView.apply {
             // use this setting to improve performance if you know that changes
@@ -72,7 +73,25 @@ class MainListFragment : Fragment(), ItemActionListener {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
+        }
 
+        // update myDataset of Adapter whenever the Live Data inside the View Model is updated
+        viewModel.taskList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewAdapter.myDataset = it
+            }
+        })
+
+        // update the Filter Option
+        viewModel.taskFilterStatus.observe(viewLifecycleOwner, Observer {
+            val editor = sharedPreferences.edit()
+            editor.putString(preferenceName, it.name)
+            editor.commit()
+        })
+
+        // add a new task if the FAB is clicked
+        binding.addFloatButton.setOnClickListener {
+            viewModel.addNewTask("")
         }
 
         // swipe to delete task
@@ -89,14 +108,22 @@ class MainListFragment : Fragment(), ItemActionListener {
         var itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        // add a new task
-        // binding.addButton.setOnClickListener{
-        binding.addFloatButton.setOnClickListener {
-            viewModel.addNewTask("")
-        }
-
 
         return binding.root
+    }
+
+    private fun getCurrentFilterOption() : TasksFilterType {
+        sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)!!
+        val currentFilterString = sharedPreferences.getString(preferenceName, null)
+        Log.i("MainListFragment", "the preferenceName is $preferenceName")
+        Log.i("MainListFragment", "the initial filter string is $currentFilterString")
+        val currentFilter = when (currentFilterString) {
+            TasksFilterType.COMPLETED_TASKS.name -> TasksFilterType.COMPLETED_TASKS
+            TasksFilterType.ALL_TASKS.name -> TasksFilterType.ALL_TASKS
+            else -> TasksFilterType.ACTIVE_TASKS
+        }
+        Log.i("MainListFragment", "the initial filter is ${currentFilter.name}")
+        return currentFilter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -124,14 +151,18 @@ class MainListFragment : Fragment(), ItemActionListener {
             menuInflater.inflate(R.menu.filter_task_menu, menu)
 
             setOnMenuItemClickListener {
+                lateinit var selectedOption: TasksFilterType
                 binding.viewModel?.run {
-                    changeFilterSetting(
+
+                    selectedOption =
                         when (it.itemId) {
                             R.id.active -> TasksFilterType.ACTIVE_TASKS
                             R.id.completed -> TasksFilterType.COMPLETED_TASKS
                             else -> TasksFilterType.ALL_TASKS
                         }
-                    )
+
+                    // update the data inside viewModel
+                    changeFilterSetting(selectedOption)
                 }
                 true
             }
