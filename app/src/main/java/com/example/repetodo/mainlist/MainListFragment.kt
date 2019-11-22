@@ -14,6 +14,7 @@ import com.example.repetodo.databinding.FragmentMainListBinding
 import android.view.inputmethod.InputMethodManager
 import android.content.Context;
 import android.content.SharedPreferences
+import android.graphics.Canvas
 import android.graphics.Color
 import android.util.Log
 import android.view.*
@@ -96,18 +97,13 @@ class MainListFragment : Fragment(), ItemActionListener {
             viewModel.addNewTask("")
         }
 
-        // swipe to delete task
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
-                viewAdapter.removeItem(viewHolder.adapterPosition)
+        val swipeHandler = object : SwipeToDeleteCallback(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as MainTaskRecyclerAdapter
+                adapter.removeItem(viewHolder.adapterPosition)
             }
         }
-
-        var itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
 
