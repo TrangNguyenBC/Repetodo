@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import com.example.repetodo.Utils.ItemActionListener
+import com.example.repetodo.Utils.SwipeToDeleteCallback
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentTemplateBinding
 import com.example.repetodo.mainlist.MainListViewModelFactory
+import com.example.repetodo.mainlist.MainTaskRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 
 class TemplateFragment : Fragment(), ItemActionListener {
@@ -80,50 +82,13 @@ class TemplateFragment : Fragment(), ItemActionListener {
         }
 
         // swipe to delete task
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
-                return false
-            }
-
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
-//                viewAdapter.removeItem(viewHolder.adapterPosition)
-//
-//            }
-
+        val swipeHandler = object : SwipeToDeleteCallback(context!!) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Log.i("TemplateFragment", "Direction is $direction")
-                viewAdapter.removeItem(viewHolder.adapterPosition)
-                if (direction == ItemTouchHelper.RIGHT) {
-                    Log.i("TemplateFragment", "Show taskbar")
-                    // showing snack bar with Undo option
-                    val snackbar = Snackbar.make(view!!, "The item was deleted",Snackbar.LENGTH_SHORT)
-//                    snackbar.setAction("UNDO") {
-//                        // undo is selected, restore the deleted item
-//                        adapter!!.restoreItem(deletedModel, position)
-//                    }
-//                    snackbar.setActionTextColor(Color.YELLOW)
-                    snackbar.show()
-                }
-//                } else {
-//                    val deletedModel = imageModelArrayList!![position]
-//                    adapter!!.removeItem(position)
-//                    // showing snack bar with Undo option
-//                    val snackbar = Snackbar.make(
-//                        window.decorView.rootView,
-//                        " removed from Recyclerview!",
-//                        Snackbar.LENGTH_LONG
-//                    )
-//                    snackbar.setAction("UNDO") {
-//                        // undo is selected, restore the deleted item
-//                        adapter!!.restoreItem(deletedModel, position)
-//                    }
-//                    snackbar.setActionTextColor(Color.YELLOW)
-//                    snackbar.show()
-//                }
+                val adapter = recyclerView.adapter as TemplateRecyclerAdapter
+                adapter.removeItem(viewHolder.adapterPosition)
             }
         }
-
-        var itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         // add a new task

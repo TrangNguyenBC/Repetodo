@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import com.example.repetodo.Utils.ItemActionListener
+import com.example.repetodo.Utils.SwipeToDeleteCallback
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentTemplateListBinding
 
@@ -78,21 +79,17 @@ class TemplateListFragment : Fragment(), ItemActionListener {
         }
 
         // swipe to delete task
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
-                viewAdapter.removeItem(viewHolder.adapterPosition)
+        val swipeHandler = object : SwipeToDeleteCallback(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as TemplateListRecyclerAdapter
+                adapter.removeItem(viewHolder.adapterPosition)
             }
         }
-
-        var itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         // swipe left to edit the template items
-        val itemTouchHelperCallbackForDetailed = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        val itemTouchHelperCallbackForDetailed = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
                 return false
             }

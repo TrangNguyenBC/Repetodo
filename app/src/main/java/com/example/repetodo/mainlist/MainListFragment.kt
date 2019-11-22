@@ -11,17 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import com.example.repetodo.database.TaskDatabase
 import com.example.repetodo.databinding.FragmentMainListBinding
-import android.view.inputmethod.InputMethodManager
 import android.content.Context;
 import android.content.SharedPreferences
-import android.graphics.Canvas
 import android.graphics.Color
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.repetodo.Utils.ItemActionListener
+import com.example.repetodo.Utils.SwipeToDeleteCallback
 import com.example.repetodo.Utils.TasksFilterType
 import com.google.android.material.snackbar.Snackbar
 
@@ -97,6 +95,7 @@ class MainListFragment : Fragment(), ItemActionListener {
             viewModel.addNewTask("")
         }
 
+        // swipe to delete
         val swipeHandler = object : SwipeToDeleteCallback(context!!) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView.adapter as MainTaskRecyclerAdapter
