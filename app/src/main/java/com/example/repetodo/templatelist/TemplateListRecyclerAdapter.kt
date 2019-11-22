@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repetodo.R
 import android.view.KeyEvent
+import androidx.navigation.findNavController
 import com.example.repetodo.Utils.ItemActionListener
 import com.example.repetodo.database.Template
 import com.example.repetodo.database.TemplateItem
 import kotlinx.android.synthetic.main.fragment_template_item.view.*
+import kotlinx.android.synthetic.main.fragment_template_list_item.view.*
 
 class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionListener):
     RecyclerView.Adapter<TemplateListRecyclerAdapter.MyViewHolder>() {
@@ -32,7 +34,7 @@ class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionList
                                     viewType: Int): MyViewHolder {
         // create a new view
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_template_item, parent, false) as View
+            .inflate(R.layout.fragment_template_list_item, parent, false) as View
         // set the view's size, margins, paddings and layout parameters
 
         return MyViewHolder(view)
@@ -44,21 +46,25 @@ class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionList
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.view.templateItemTitle.apply {
+        holder.view.detailedInfoButton.setOnClickListener {
+            it.findNavController().navigate(TemplateListFragmentDirections.actionTemplateListFragmentToTemplateFragment(id))
+        }
+
+        holder.view.templateTitle.apply {
             // show the task title
             setText(myDataset[position].templateTitle)
             // focus cursor to the end of task title
             setSelection(myDataset[position].templateTitle.length)
         }
 
-        holder.view.templateItemTitle.setOnFocusChangeListener { _, hasFocus ->
+        holder.view.templateTitle.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 var newTitle = holder.view.templateItemTitle.text.toString()
                 itemActionListener.onItemUpdate(id, newTitle)
             }
         }
 
-        holder.view.templateItemTitle.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+        holder.view.templateTitle.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 Log.i("TemplateRecyclerAdapter", "Heard an Enter Key")
                 var newTitle = holder.view.templateItemTitle.text.toString()

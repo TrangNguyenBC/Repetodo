@@ -88,25 +88,6 @@ class TemplateListFragment : Fragment(), ItemActionListener {
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        // swipe left to edit the template items
-        val itemTouchHelperCallbackForDetailed = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder) : Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, position: Int) {
-                Log.i("TemplateListFragment", "navigate to template fragment")
-                var templateId = viewAdapter.getIdFromPosition(viewHolder.adapterPosition)
-                view!!.findNavController().navigate(TemplateListFragmentDirections.actionTemplateListFragmentToTemplateFragment(templateId))
-
-
-                //viewAdapter.navigateToTemplateFragment(viewHolder.adapterPosition)
-            }
-        }
-
-        var itemTouchHelperForDetailed = ItemTouchHelper(itemTouchHelperCallbackForDetailed)
-        itemTouchHelperForDetailed.attachToRecyclerView(recyclerView)
-
         // add a new task
         binding.addFloatButtonTplList.setOnClickListener{
             viewModel.addNewTemplate("")
