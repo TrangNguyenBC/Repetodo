@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.repetodo.mainlist.MainListViewModel" />
+            type="com.sleepingworm.repetodo.mainlist.MainListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
