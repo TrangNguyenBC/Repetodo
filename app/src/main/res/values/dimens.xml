@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="recyclerView_top_margin">48dp</dimen>
+    <dimen name="floatActionButton_top_margin">4dp</dimen>
+    <dimen name="rotateDetailedButoon">180</dimen>
+</resources>

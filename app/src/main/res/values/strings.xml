@@ -6,4 +6,14 @@
     <string name="font_mono">monospace</string>
     <string name="show_button_text">Show completed task</string>
     <string name="hide_button_text">Hide completed task</string>
+    <string name="insert_button_text">Insert</string>
+    <string name="taskMenuTemplateListText">Templates list</string>
+    <string name="taskMenuTemplateInsertText">Insert from templates</string>
+    <string name="taskMenuFilterTasksText">Filter active tasks</string>
+    <string name="taskMenuAllTasksText">Show all tasks</string>
+    <string name="removeInformText">1 item removed</string>
+    <string name="undo_text">UNDO</string>
+
+
+
 </resources>

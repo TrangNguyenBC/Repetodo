@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
-            type="com.sleepingworm.repetodo.mainlist.MainListViewModel" />
+            type="com.sleepingworm.repetodo.templatelist.TemplateListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addFloatButton"
+            android:id="@+id/addFloatButtonTplList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/floatActionButton_top_margin"
@@ -24,9 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/taskRecyclerView"
+                android:id="@+id/templateListRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/recyclerView_top_margin"
@@ -35,7 +34,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

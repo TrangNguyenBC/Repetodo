@@ -2,31 +2,32 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
         <variable
             name="viewModel"
-            type="com.sleepingworm.repetodo.mainlist.MainListViewModel" />
+            type="com.sleepingworm.repetodo.template.TemplateViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addFloatButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/floatActionButton_top_margin"
-            android:layout_gravity="end|top"
-            app:srcCompat="@drawable/ic_add_24px" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFloatButtonTpl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/floatActionButton_top_margin"
+        android:layout_gravity="end|top"
+        app:srcCompat="@drawable/ic_add_24px" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:fontFamily="@string/font_mono">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/taskRecyclerView"
+                android:id="@+id/templateItemRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/recyclerView_top_margin"

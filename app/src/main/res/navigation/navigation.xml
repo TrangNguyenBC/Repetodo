@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    app:startDestination="@id/mainListFragment">
+    <fragment
+        android:id="@+id/mainListFragment"
+        android:name="com.sleepingworm.repetodo.mainlist.MainListFragment"
+        android:label="MainListFragment" >
+        <action
+            android:id="@+id/action_mainListFragment_to_templateListFragment"
+            app:destination="@id/templateListFragment" />
+        <action
+            android:id="@+id/action_mainListFragment_to_templateInsertFragment"
+            app:destination="@id/templateInsertFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/templateListFragment"
+        android:name="com.sleepingworm.repetodo.templatelist.TemplateListFragment"
+        android:label="TemplateListFragment" >
+        <action
+            android:id="@+id/action_templateListFragment_to_templateFragment"
+            app:destination="@id/templateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/templateFragment"
+        android:name="com.sleepingworm.repetodo.template.TemplateFragment"
+        android:label="TemplateFragment" >
+        <argument
+            android:name="fragmentId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/templateInsertFragment"
+        android:name="com.sleepingworm.repetodo.templateinsert.TemplateInsertFragment"
+        android:label="TemplateInsertFragment" >
+        <action
+            android:id="@+id/action_templateInsertFragment_to_mainListFragment"
+            app:destination="@id/mainListFragment" />
+    </fragment>
+</navigation>
