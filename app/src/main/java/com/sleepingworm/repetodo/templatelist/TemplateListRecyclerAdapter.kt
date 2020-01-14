@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import com.sleepingworm.repetodo.Utils.ItemActionListener
 import com.sleepingworm.repetodo.database.Template
 import kotlinx.android.synthetic.main.fragment_template_item.view.*
+import kotlinx.android.synthetic.main.fragment_template_list.view.*
 import kotlinx.android.synthetic.main.fragment_template_list_item.view.*
 
 class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionListener):
@@ -42,18 +43,19 @@ class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionList
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var id = myDataset[position].templateId
+        var title = myDataset[position].templateTitle
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
         holder.view.detailedInfoButton.setOnClickListener {
-            it.findNavController().navigate(TemplateListFragmentDirections.actionTemplateListFragmentToTemplateFragment(id))
+            it.findNavController().navigate(TemplateListFragmentDirections.actionTemplateListFragmentToTemplateFragment(id, title))
         }
 
         holder.view.templateTitle.apply {
             // show the task title
-            setText(myDataset[position].templateTitle)
+            setText(title)
             // focus cursor to the end of task title
-            setSelection(myDataset[position].templateTitle.length)
+            setSelection(title.length)
         }
 
         holder.view.templateTitle.setOnFocusChangeListener { _, hasFocus ->

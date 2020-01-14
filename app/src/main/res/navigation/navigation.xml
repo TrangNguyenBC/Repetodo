@@ -28,6 +28,9 @@
         <argument
             android:name="fragmentId"
             app:argType="long" />
+        <argument
+            android:name="fragmentName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/templateInsertFragment"
