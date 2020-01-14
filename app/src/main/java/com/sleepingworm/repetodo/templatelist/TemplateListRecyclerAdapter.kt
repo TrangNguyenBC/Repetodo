@@ -69,7 +69,7 @@ class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionList
         }
 
         holder.view.templateTitle.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+            if (keyCode == KeyEvent.KEYCODE_ENTER || event.action == KeyEvent.ACTION_UP) {
                 Log.i("TemplateRecyclerAdapter", "Heard an Enter Key")
                 Log.i("TemplateRecyclerAdapter", "ID is $id")
                 var newTitle = holder.view.templateTitle.text.toString()
