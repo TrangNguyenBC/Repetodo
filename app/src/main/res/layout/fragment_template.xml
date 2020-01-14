@@ -26,6 +26,19 @@
             android:layout_height="match_parent"
             android:fontFamily="@string/font_mono">
 
+            <TextView
+                android:id="@+id/templateNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Template Name"
+                android:textSize="18dp"
+                android:layout_marginTop="@dimen/recyclerView_top_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/templateItemRecyclerView"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/templateItemRecyclerView"
                 android:layout_width="0dp"
@@ -35,7 +48,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/templateNameText" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

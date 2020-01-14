@@ -54,6 +54,9 @@ class TemplateRecyclerAdapter(private var itemActionListener: ItemActionListener
             if (!hasFocus) {
                 var newTitle = holder.view.templateItemTitle.text.toString()
                 itemActionListener.onItemUpdate(id, newTitle)
+                itemActionListener.updatingPosition = -1
+            } else {
+                itemActionListener.updatingPosition = position
             }
         }
 
