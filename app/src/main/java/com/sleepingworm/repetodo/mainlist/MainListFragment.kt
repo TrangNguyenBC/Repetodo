@@ -92,6 +92,12 @@ class MainListFragment : Fragment(), ItemActionListener {
             editor.commit()
         })
 
+        // if Done button is pressed, clear focus of RecyclerView will activate the "updateItem" of adapter, then hide Done button & show Add button
+        binding.doneBtn.setOnClickListener {
+            binding.taskRecyclerView.clearFocus()
+            changeAddButtonVisibility(false)
+        }
+
         // add a new task if the FAB is clicked
         binding.addFloatButton.setOnClickListener {
             viewModel.addNewTask("")
@@ -187,5 +193,15 @@ class MainListFragment : Fragment(), ItemActionListener {
 
     override fun onItemCheckUpdate(id: Long, checked: Boolean) {
         viewModel.updateTaskStatus(id, checked)
+    }
+
+    override fun changeAddButtonVisibility(hideAddButton: Boolean) {
+        if (hideAddButton) {
+            binding.addFloatButton.hide()
+            binding.doneBtn.visibility = View.VISIBLE
+        } else {
+            binding.addFloatButton.show()
+            binding.doneBtn.visibility = View.INVISIBLE
+        }
     }
 }

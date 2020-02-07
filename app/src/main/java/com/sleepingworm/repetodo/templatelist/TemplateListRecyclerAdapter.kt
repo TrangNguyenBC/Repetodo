@@ -65,6 +65,7 @@ class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionList
                 itemActionListener.updatingPosition = -1
             } else {
                 itemActionListener.updatingPosition = position
+                itemActionListener.changeAddButtonVisibility(true)
             }
         }
 

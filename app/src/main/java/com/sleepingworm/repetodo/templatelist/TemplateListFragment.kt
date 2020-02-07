@@ -97,6 +97,12 @@ class TemplateListFragment : Fragment(), ItemActionListener {
             viewModel.addNewTemplate("")
         }
 
+        // if Done button is pressed, clear focus of RecyclerView will activate the "updateItem" of adapter, then hide Done button & show Add button
+        binding.doneBtnTplList.setOnClickListener {
+            binding.templateListRecyclerView.clearFocus()
+            changeAddButtonVisibility(false)
+        }
+
         return binding.root
     }
 
@@ -118,5 +124,15 @@ class TemplateListFragment : Fragment(), ItemActionListener {
     override fun onItemUpdate(id: Long, title: String) {
         viewModel.updateTask(id, title)
         hideSoftKeyboard(activity!!, view!!)
+    }
+
+    override fun changeAddButtonVisibility(hideAddButton: Boolean) {
+        if (hideAddButton) {
+            binding.addFloatButtonTplList.hide()
+            binding.doneBtnTplList.visibility = View.VISIBLE
+        } else {
+            binding.addFloatButtonTplList.show()
+            binding.doneBtnTplList.visibility = View.INVISIBLE
+        }
     }
 }

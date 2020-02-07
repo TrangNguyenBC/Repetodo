@@ -70,6 +70,7 @@ class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener
                 itemActionListener.updatingPosition = -1
             } else {
                 itemActionListener.updatingPosition = position
+                itemActionListener.changeAddButtonVisibility(true)
             }
 
         }
