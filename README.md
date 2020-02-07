@@ -4,3 +4,5 @@
   The interface includes:
 - A MainList where you can add/edit/delete tasks easily (as any other to-do apps), and insert items from templates
 - A TemplatesList where you can add/edit/deleete templates. Each template contains some items.  which you may use several times (for example, travel list includes electricity adapter, passport, comb,...). You can add/edit/delete an item into/from the Template.
+
+  Click here to watch app demo: https://youtu.be/cYTGJRuwfoQ
