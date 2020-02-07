@@ -14,7 +14,6 @@ import com.sleepingworm.repetodo.databinding.FragmentMainListBinding
 import android.content.Context;
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.navigation.findNavController

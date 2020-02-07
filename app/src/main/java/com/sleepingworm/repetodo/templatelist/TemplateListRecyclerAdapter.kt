@@ -10,8 +10,6 @@ import android.view.KeyEvent
 import androidx.navigation.findNavController
 import com.sleepingworm.repetodo.Utils.ItemActionListener
 import com.sleepingworm.repetodo.database.Template
-import kotlinx.android.synthetic.main.fragment_template_item.view.*
-import kotlinx.android.synthetic.main.fragment_template_list.view.*
 import kotlinx.android.synthetic.main.fragment_template_list_item.view.*
 
 class TemplateListRecyclerAdapter(private var itemActionListener: ItemActionListener):
