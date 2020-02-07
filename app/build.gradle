@@ -10,7 +10,7 @@ android {
         applicationId "com.sleepingworm.repetodo"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
+        versionCode 3
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -27,6 +27,16 @@ android {
         enabled = true
     }
 
+    bundle {
+        //Generate APKs for devices with different screen densities//
+        density {
+            enableSplit true
+        }
+        //Generate APKs for devices with different CPU architectures//
+        abi {
+            enableSplit true
+        }
+    }
 }
 
 dependencies {

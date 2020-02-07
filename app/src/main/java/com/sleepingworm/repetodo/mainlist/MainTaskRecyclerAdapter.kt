@@ -10,7 +10,6 @@ import com.sleepingworm.repetodo.database.TaskInformation
 import kotlinx.android.synthetic.main.fragment_task_item.view.*
 import android.view.KeyEvent
 import com.sleepingworm.repetodo.Utils.ItemActionListener
-import com.sleepingworm.repetodo.Utils.SwipeToDeleteCallback
 
 class MainTaskRecyclerAdapter(private var itemActionListener: ItemActionListener):
     RecyclerView.Adapter<MainTaskRecyclerAdapter.MyViewHolder>() {
