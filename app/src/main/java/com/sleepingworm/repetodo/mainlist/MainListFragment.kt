@@ -92,6 +92,7 @@ class MainListFragment : Fragment(), ItemActionListener {
             editor.commit()
         })
 
+        // if Done button is pressed, clear focus of RecyclerView will activate the "updateItem" of adapter, then hide Done button & show Add button
         binding.doneBtn.setOnClickListener {
             binding.taskRecyclerView.clearFocus()
             changeAddButtonVisibility(false)

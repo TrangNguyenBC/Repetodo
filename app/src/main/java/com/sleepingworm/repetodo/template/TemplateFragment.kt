@@ -103,6 +103,12 @@ class TemplateFragment : Fragment(), ItemActionListener {
             viewModel.addNewTask("")
         }
 
+        // if Done button is pressed, clear focus of RecyclerView will activate the "updateItem" of adapter, then hide Done button & show Add button
+        binding.doneBtnTpl.setOnClickListener {
+            binding.templateItemRecyclerView.clearFocus()
+            changeAddButtonVisibility(false)
+        }
+
         return binding.root
     }
 
@@ -127,6 +133,14 @@ class TemplateFragment : Fragment(), ItemActionListener {
     }
 
     override fun changeAddButtonVisibility(hideAddButton: Boolean) {
-        super.changeAddButtonVisibility(hideAddButton)
+        if (hideAddButton) {
+            binding.addFloatButtonTpl.hide()
+            binding.doneBtnTpl.visibility = View.VISIBLE
+        } else {
+            binding.addFloatButtonTpl.show()
+            binding.doneBtnTpl.visibility = View.INVISIBLE
+        }
     }
+
+
 }
