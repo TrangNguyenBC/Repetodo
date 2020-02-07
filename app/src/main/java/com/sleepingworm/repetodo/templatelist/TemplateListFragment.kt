@@ -119,4 +119,8 @@ class TemplateListFragment : Fragment(), ItemActionListener {
         viewModel.updateTask(id, title)
         hideSoftKeyboard(activity!!, view!!)
     }
+
+    override fun changeAddButtonVisibility(hideAddButton: Boolean) {
+        super.changeAddButtonVisibility(hideAddButton)
+    }
 }
